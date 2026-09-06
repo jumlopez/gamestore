@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameStore — Productos</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ============ NAV (copiar igual en todas las páginas) ============ -->
+  <header class="nav">
+    <div class="contenedor nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="nav__logo-mark"></span>
+        GameStore
+      </a>
+      <nav class="nav__links">
+        <a href="index.html">Home</a>
+        <a href="productos.html" class="activo">Productos</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="blogs.html">Blogs</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+      <div class="nav__cuenta">
+        <span id="nav-invitado">
+          <a href="login.html">Iniciar sesión</a>
+          <a href="registro.html">Registrarse</a>
+        </span>
+        <span id="nav-sesion" style="display:none; align-items:center; gap:12px;">
+          <span id="nav-sesion-nombre" style="color:var(--color-text-muted); font-size:0.85rem;"></span>
+          <a href="#" id="nav-cerrar-sesion">Cerrar sesión</a>
+        </span>
+        <a href="carrito.html" class="carrito-btn">
+          Carrito
+          <span class="carrito-btn__contador" id="contador-carrito">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ PRODUCTOS + FILTROS ============ -->
+  <section class="seccion" style="border-top: none; padding-top: 40px;">
+    <div class="contenedor">
+      <div class="seccion__encabezado">
+        <h2>Catálogo</h2>
+      </div>
+
+      <div class="layout-productos">
+
+        <!-- Filtros por plataforma -->
+        <aside class="filtros">
+          <h3>Plataforma</h3>
+          <div class="filtros__grupo" id="filtros-plataforma">
+            <label class="filtros__opcion">
+              <input type="checkbox" name="plataforma" value="pc" checked />
+              PC
+            </label>
+            <label class="filtros__opcion">
+              <input type="checkbox" name="plataforma" value="ps5" checked />
+              PS5
+            </label>
+            <label class="filtros__opcion">
+              <input type="checkbox" name="plataforma" value="xbox" checked />
+              Xbox
+            </label>
+            <label class="filtros__opcion">
+              <input type="checkbox" name="plataforma" value="switch" checked />
+              Switch
+            </label>
+          </div>
+        </aside>
+
+        <!-- Grilla de productos (se dibuja con JS) -->
+        <div class="grilla-productos" id="grilla-productos"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER (copiar igual en todas las páginas) ============ -->
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__marca">GameStore</div>
+          <p>Tienda de videojuegos para PC y consolas. Proyecto académico DUOC UC — DSY1104.</p>
+        </div>
+        <div>
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Cuenta</h4>
+          <ul>
+            <li><a href="login.html">Iniciar sesión</a></li>
+            <li><a href="registro.html">Registrarse</a></li>
+            <li><a href="carrito.html">Mi carrito</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__base">
+        <span>© 2026 GameStore — Proyecto académico</span>
+        <span>Hecho con HTML, CSS y JavaScript</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/productos-data.js"></script>
+  <script src="js/sesion.js"></script>
+  <script src="js/carrito.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const grilla = document.getElementById('grilla-productos');
+      const checkboxes = document.querySelectorAll('#filtros-plataforma input[type="checkbox"]');
+
+      function dibujarProductos() {
+        const activas = Array.from(checkboxes).filter((c) => c.checked).map((c) => c.value);
+        grilla.innerHTML = '';
+        PRODUCTOS.filter((p) => activas.includes(p.plataforma)).forEach((producto) => {
+          const tarjeta = document.createElement('article');
+          tarjeta.className = 'tarjeta-juego';
+          tarjeta.innerHTML = `
+            <a href="detalle-producto.html?id=${producto.id}">
+              <div class="tarjeta-juego__portada">portada</div>
+            </a>
+            <div class="tarjeta-juego__cuerpo">
+              <span class="plataforma-tag">${producto.plataforma.toUpperCase()}</span>
+              <h3 class="tarjeta-juego__titulo">
+                <a href="detalle-producto.html?id=${producto.id}">${producto.nombre}</a>
+              </h3>
+              <div class="tarjeta-juego__precio-fila">
+                <span class="tarjeta-juego__precio">${formatearPrecio(producto.precio)}</span>
+                <button class="boton-anadir" data-anadir-carrito="${producto.id}">Añadir</button>
+              </div>
+            </div>
+          `;
+          grilla.appendChild(tarjeta);
+        });
+        grilla.querySelectorAll('[data-anadir-carrito]').forEach((boton) => {
+          boton.addEventListener('click', () => agregarAlCarrito(boton.dataset.anadirCarrito, 1));
+        });
+      }
+
+      checkboxes.forEach((c) => c.addEventListener('change', dibujarProductos));
+      dibujarProductos();
+    });
+  </script>
+</body>
+</html>

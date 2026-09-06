@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameStore — Nosotros</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <header class="nav">
+    <div class="contenedor nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="nav__logo-mark"></span>
+        GameStore
+      </a>
+      <nav class="nav__links">
+        <a href="index.html">Home</a>
+        <a href="productos.html">Productos</a>
+        <a href="nosotros.html" class="activo">Nosotros</a>
+        <a href="blogs.html">Blogs</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+      <div class="nav__cuenta">
+        <span id="nav-invitado">
+          <a href="login.html">Iniciar sesión</a>
+          <a href="registro.html">Registrarse</a>
+        </span>
+        <span id="nav-sesion" style="display:none; align-items:center; gap:12px;">
+          <span id="nav-sesion-nombre" style="color:var(--color-text-muted); font-size:0.85rem;"></span>
+          <a href="#" id="nav-cerrar-sesion">Cerrar sesión</a>
+        </span>
+        <a href="carrito.html" class="carrito-btn">
+          Carrito
+          <span class="carrito-btn__contador" id="contador-carrito">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="pagina-simple contenedor" style="max-width:760px;">
+    <h1>Sobre GameStore</h1>
+    <p>
+      GameStore nació como proyecto académico del ramo DSY1104 en DUOC UC,
+      con la idea de armar una tienda de videojuegos simple, rápida y sin
+      relleno: encontrar el juego, ver el precio real, comprarlo. Nada más.
+    </p>
+    <p>
+      Reemplacen este texto por la historia real que quieran contar sobre
+      su tienda — de dónde viene el nombre, qué la hace distinta, etc.
+    </p>
+
+    <h2 style="margin-top:32px;">El equipo</h2>
+    <p>
+      Acá va una breve presentación del equipo desarrollador: nombres,
+      roles dentro del proyecto (frontend, validaciones, GitHub) y una
+      línea sobre cada uno.
+    </p>
+  </section>
+
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer__base">
+        <span>© 2026 GameStore — Proyecto académico</span>
+        <span>Hecho con HTML, CSS y JavaScript</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/productos-data.js"></script>
+  <script src="js/sesion.js"></script>
+  <script src="js/carrito.js"></script>
+</body>
+</html>

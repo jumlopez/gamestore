@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameStore Admin — Nuevo producto</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar__marca">GameStore <span style="color:var(--color-text-muted); font-weight:400; font-size:0.8rem;">/ admin</span></div>
+      <nav>
+        <a href="index.html">Inicio</a>
+        <a href="productos.html" class="activo">Productos</a>
+        <a href="usuarios.html" id="link-usuarios">Usuarios</a>
+        <a href="../index.html" style="margin-top:20px; border-top:1px solid var(--color-border); padding-top:16px; display:block;">Volver a la tienda</a>
+      </nav>
+      <div style="margin-top:24px; padding-top:16px; border-top:1px solid var(--color-border); font-size:0.82rem;">
+        <div id="admin-usuario-nombre" style="color:var(--color-text-muted); margin-bottom:8px;"></div>
+        <a href="#" id="admin-cerrar-sesion">Cerrar sesión</a>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-encabezado">
+        <h1 id="titulo-formulario">Nuevo producto</h1>
+      </div>
+
+      <form class="formulario formulario--ancho" id="form-producto" novalidate>
+        <div class="mensaje-exito" id="producto-exito">Producto guardado correctamente.</div>
+
+        <div class="campo" id="campo-codigo">
+          <label for="codigo">Código producto</label>
+          <input type="text" id="codigo" name="codigo" />
+          <span class="campo__ayuda">Mínimo 3 caracteres, sin límite máximo.</span>
+          <span class="campo__error"></span>
+        </div>
+
+        <div class="campo" id="campo-nombre">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" name="nombre" maxlength="100" />
+          <span class="campo__error"></span>
+        </div>
+
+        <div class="campo" id="campo-descripcion">
+          <label for="descripcion">Descripción (opcional)</label>
+          <textarea id="descripcion" name="descripcion" rows="4" maxlength="500"></textarea>
+          <span class="campo__error"></span>
+        </div>
+
+        <div class="fila-2">
+          <div class="campo" id="campo-precio">
+            <label for="precio">Precio</label>
+            <input type="number" id="precio" name="precio" min="0" step="0.01" />
+            <span class="campo__ayuda">Mínimo 0 (se considera producto FREE). Acepta decimales.</span>
+            <span class="campo__error"></span>
+          </div>
+          <div class="campo" id="campo-categoria">
+            <label for="categoria">Categoría (plataforma)</label>
+            <select id="categoria" name="categoria">
+              <option value="">-- Seleccione --</option>
+              <option value="pc">PC</option>
+              <option value="ps5">PS5</option>
+              <option value="xbox">Xbox</option>
+              <option value="switch">Switch</option>
+            </select>
+            <span class="campo__error"></span>
+          </div>
+        </div>
+
+        <div class="fila-2">
+          <div class="campo" id="campo-stock">
+            <label for="stock">Stock</label>
+            <input type="number" id="stock" name="stock" min="0" step="1" />
+            <span class="campo__ayuda">Solo números enteros.</span>
+            <span class="campo__error"></span>
+          </div>
+          <div class="campo" id="campo-stock-critico">
+            <label for="stock-critico">Stock crítico (opcional)</label>
+            <input type="number" id="stock-critico" name="stock-critico" min="0" step="1" />
+            <span class="campo__ayuda">Se avisa cuando el stock cae a este nivel o menos.</span>
+            <span class="campo__error"></span>
+          </div>
+        </div>
+
+        <div class="campo" id="campo-imagen">
+          <label for="imagen">Imagen (opcional)</label>
+          <input type="file" id="imagen" name="imagen" accept="image/*" />
+        </div>
+
+        <button type="submit" class="boton-primario">Guardar producto</button>
+      </form>
+    </main>
+  </div>
+
+  <script src="../js/productos-data.js"></script>
+  <script src="../js/sesion.js"></script>
+  <script src="../js/validaciones.js"></script>
+  <script>
+    const sesion = protegerAdmin(['administrador'], '../');
+    if (sesion) {
+      ajustarSidebarSegunRol(sesion);
+    }
+
+    // Si viene ?id=, precarga los datos (modo edición)
+    const params = new URLSearchParams(window.location.search);
+    const idEdicion = params.get('id');
+    if (idEdicion) {
+      const producto = obtenerProductoPorId(idEdicion);
+      if (producto) {
+        document.getElementById('titulo-formulario').textContent = 'Editar producto';
+        document.getElementById('codigo').value = producto.id;
+        document.getElementById('nombre').value = producto.nombre;
+        document.getElementById('descripcion').value = producto.descripcion;
+        document.getElementById('precio').value = producto.precio;
+        document.getElementById('categoria').value = producto.plataforma;
+        document.getElementById('stock').value = producto.stock;
+        document.getElementById('stock-critico').value = producto.stockCritico;
+      }
+    }
+
+    const form = document.getElementById('form-producto');
+    const mensajeExito = document.getElementById('producto-exito');
+
+    const campos = {
+      codigo: document.getElementById('campo-codigo'),
+      nombre: document.getElementById('campo-nombre'),
+      descripcion: document.getElementById('campo-descripcion'),
+      precio: document.getElementById('campo-precio'),
+      categoria: document.getElementById('campo-categoria'),
+      stock: document.getElementById('campo-stock'),
+      stockCritico: document.getElementById('campo-stock-critico'),
+    };
+    const inputs = {
+      codigo: document.getElementById('codigo'),
+      nombre: document.getElementById('nombre'),
+      descripcion: document.getElementById('descripcion'),
+      precio: document.getElementById('precio'),
+      categoria: document.getElementById('categoria'),
+      stock: document.getElementById('stock'),
+      stockCritico: document.getElementById('stock-critico'),
+    };
+
+    function validarCodigo() {
+      if (!validarRequerido(inputs.codigo.value) || !validarLargo(inputs.codigo.value, 3, null)) {
+        mostrarError(campos.codigo, 'Mínimo 3 caracteres.');
+        return false;
+      }
+      limpiarError(campos.codigo);
+      return true;
+    }
+    function validarNombre() {
+      if (!validarRequerido(inputs.nombre.value) || !validarLargo(inputs.nombre.value, null, 100)) {
+        mostrarError(campos.nombre, 'Requerido, máximo 100 caracteres.');
+        return false;
+      }
+      limpiarError(campos.nombre);
+      return true;
+    }
+    function validarDescripcion() {
+      if (!validarLargo(inputs.descripcion.value, null, 500)) {
+        mostrarError(campos.descripcion, 'Máximo 500 caracteres.');
+        return false;
+      }
+      limpiarError(campos.descripcion);
+      return true;
+    }
+    function validarPrecio() {
+      const valor = parseFloat(inputs.precio.value);
+      if (inputs.precio.value === '' || isNaN(valor) || valor < 0) {
+        mostrarError(campos.precio, 'Requerido, mínimo 0.');
+        return false;
+      }
+      limpiarError(campos.precio);
+      return true;
+    }
+    function validarCategoria() {
+      if (!validarRequerido(inputs.categoria.value)) {
+        mostrarError(campos.categoria, 'Selecciona una categoría.');
+        return false;
+      }
+      limpiarError(campos.categoria);
+      return true;
+    }
+    function validarStock() {
+      const valor = inputs.stock.value;
+      if (valor === '' || !Number.isInteger(Number(valor)) || Number(valor) < 0) {
+        mostrarError(campos.stock, 'Requerido, entero, mínimo 0.');
+        return false;
+      }
+      limpiarError(campos.stock);
+      return true;
+    }
+    function validarStockCritico() {
+      const valor = inputs.stockCritico.value;
+      if (valor === '') {
+        limpiarError(campos.stockCritico);
+        return true; // opcional
+      }
+      if (!Number.isInteger(Number(valor)) || Number(valor) < 0) {
+        mostrarError(campos.stockCritico, 'Debe ser un entero, mínimo 0.');
+        return false;
+      }
+      limpiarError(campos.stockCritico);
+      return true;
+    }
+
+    inputs.codigo.addEventListener('input', validarCodigo);
+    inputs.nombre.addEventListener('input', validarNombre);
+    inputs.descripcion.addEventListener('input', validarDescripcion);
+    inputs.precio.addEventListener('input', validarPrecio);
+    inputs.categoria.addEventListener('change', validarCategoria);
+    inputs.stock.addEventListener('input', validarStock);
+    inputs.stockCritico.addEventListener('input', validarStockCritico);
+
+    form.addEventListener('submit', (evento) => {
+      evento.preventDefault();
+      mensajeExito.classList.remove('visible');
+      const ok = [
+        validarCodigo(), validarNombre(), validarDescripcion(),
+        validarPrecio(), validarCategoria(), validarStock(), validarStockCritico(),
+      ].every(Boolean);
+      if (ok) mensajeExito.classList.add('visible');
+    });
+  </script>
+</body>
+</html>

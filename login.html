@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameStore — Iniciar sesión</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <header class="nav">
+    <div class="contenedor nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="nav__logo-mark"></span>
+        GameStore
+      </a>
+      <nav class="nav__links">
+        <a href="index.html">Home</a>
+        <a href="productos.html">Productos</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="blogs.html">Blogs</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+      <div class="nav__cuenta">
+        <span id="nav-invitado">
+          <a href="login.html">Iniciar sesión</a>
+          <a href="registro.html">Registrarse</a>
+        </span>
+        <span id="nav-sesion" style="display:none; align-items:center; gap:12px;">
+          <span id="nav-sesion-nombre" style="color:var(--color-text-muted); font-size:0.85rem;"></span>
+          <a href="#" id="nav-cerrar-sesion">Cerrar sesión</a>
+        </span>
+        <a href="carrito.html" class="carrito-btn">
+          Carrito
+          <span class="carrito-btn__contador" id="contador-carrito">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="pagina-simple contenedor" style="display:flex; justify-content:center;">
+    <div style="width:100%; max-width:420px;">
+      <h1 style="text-align:center;">GameStore</h1>
+
+      <form class="formulario" id="form-login" novalidate>
+        <div class="mensaje-exito" id="login-exito">Inicio de sesión válido.</div>
+
+        <div class="campo" id="campo-correo">
+          <label for="correo">Correo</label>
+          <input type="email" id="correo" name="correo" maxlength="100" />
+          <span class="campo__error"></span>
+        </div>
+
+        <div class="campo" id="campo-contrasena">
+          <label for="contrasena">Contraseña</label>
+          <input type="password" id="contrasena" name="contrasena" maxlength="10" />
+          <span class="campo__error"></span>
+        </div>
+
+        <button type="submit" class="boton-primario">Iniciar sesión</button>
+      </form>
+
+      <p style="text-align:center; margin-top:16px; font-size:0.9rem;">
+        ¿No tienes cuenta? <a href="registro.html" style="color:var(--color-accent-2);">Regístrate</a>
+      </p>
+
+      <p class="campo__ayuda" style="text-align:center; margin-top:24px;">
+        Admin de prueba: admin@duoc.cl / admin123
+      </p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer__base">
+        <span>© 2026 GameStore — Proyecto académico</span>
+        <span>Hecho con HTML, CSS y JavaScript</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/productos-data.js"></script>
+  <script src="js/sesion.js"></script>
+  <script src="js/carrito.js"></script>
+  <script src="js/validaciones.js"></script>
+  <script>
+    const formLogin = document.getElementById('form-login');
+    const campoCorreo = document.getElementById('campo-correo');
+    const campoContrasena = document.getElementById('campo-contrasena');
+    const inputCorreo = document.getElementById('correo');
+    const inputContrasena = document.getElementById('contrasena');
+    const mensajeExito = document.getElementById('login-exito');
+
+    function validarCampoCorreo() {
+      const valor = inputCorreo.value;
+      if (!validarRequerido(valor)) {
+        mostrarError(campoCorreo, 'El correo es obligatorio.');
+        return false;
+      }
+      if (!validarLargo(valor, null, 100)) {
+        mostrarError(campoCorreo, 'Máximo 100 caracteres.');
+        return false;
+      }
+      if (!validarCorreo(valor)) {
+        mostrarError(campoCorreo, 'Usa un correo @duoc.cl, @profesor.duoc.cl o @gmail.com.');
+        return false;
+      }
+      limpiarError(campoCorreo);
+      return true;
+    }
+
+    function validarCampoContrasena() {
+      const valor = inputContrasena.value;
+      if (!validarRequerido(valor)) {
+        mostrarError(campoContrasena, 'La contraseña es obligatoria.');
+        return false;
+      }
+      if (!validarLargo(valor, 4, 10)) {
+        mostrarError(campoContrasena, 'Debe tener entre 4 y 10 caracteres.');
+        return false;
+      }
+      limpiarError(campoContrasena);
+      return true;
+    }
+
+    inputCorreo.addEventListener('input', validarCampoCorreo);
+    inputContrasena.addEventListener('input', validarCampoContrasena);
+
+    formLogin.addEventListener('submit', (evento) => {
+      evento.preventDefault();
+      mensajeExito.classList.remove('visible');
+      const correoOk = validarCampoCorreo();
+      const contrasenaOk = validarCampoContrasena();
+      if (!correoOk || !contrasenaOk) return;
+
+      const sesion = iniciarSesion(inputCorreo.value, inputContrasena.value);
+      if (!sesion) {
+        mostrarError(campoContrasena, 'Correo o contraseña incorrectos.');
+        return;
+      }
+
+      mensajeExito.textContent = `Bienvenido, ${sesion.nombre}. Redirigiendo…`;
+      mensajeExito.classList.add('visible');
+
+      setTimeout(() => {
+        if (sesion.tipoUsuario === 'administrador' || sesion.tipoUsuario === 'vendedor') {
+          window.location.href = 'admin/index.html';
+        } else {
+          window.location.href = 'index.html';
+        }
+      }, 900);
+    });
+  </script>
+</body>
+</html>

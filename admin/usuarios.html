@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameStore Admin — Usuarios</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar__marca">GameStore <span style="color:var(--color-text-muted); font-weight:400; font-size:0.8rem;">/ admin</span></div>
+      <nav>
+        <a href="index.html">Inicio</a>
+        <a href="productos.html">Productos</a>
+        <a href="usuarios.html" class="activo" id="link-usuarios">Usuarios</a>
+        <a href="../index.html" style="margin-top:20px; border-top:1px solid var(--color-border); padding-top:16px; display:block;">Volver a la tienda</a>
+      </nav>
+      <div style="margin-top:24px; padding-top:16px; border-top:1px solid var(--color-border); font-size:0.82rem;">
+        <div id="admin-usuario-nombre" style="color:var(--color-text-muted); margin-bottom:8px;"></div>
+        <a href="#" id="admin-cerrar-sesion">Cerrar sesión</a>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <div class="admin-encabezado">
+        <h1>Usuarios</h1>
+        <a href="usuario-nuevo.html" class="boton-primario" style="width:auto; display:inline-block; padding:10px 20px;">Nuevo usuario</a>
+      </div>
+
+      <div class="tabla-wrap">
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>RUN</th>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Rol</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tabla-usuarios"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/sesion.js"></script>
+  <script>
+    const sesion = protegerAdmin(['administrador'], '../');
+    if (sesion) {
+      ajustarSidebarSegunRol(sesion);
+
+      const cuerpo = document.getElementById('tabla-usuarios');
+      obtenerUsuarios().forEach((u) => {
+        const fila = document.createElement('tr');
+        fila.innerHTML = `
+          <td>${u.run}</td>
+          <td>${u.nombre} ${u.apellidos || ''}</td>
+          <td>${u.correo}</td>
+          <td><span class="badge-rol">${u.tipoUsuario}</span></td>
+          <td><a href="usuario-nuevo.html?correo=${encodeURIComponent(u.correo)}"><button type="button" class="boton-tabla">Editar</button></a></td>
+        `;
+        cuerpo.appendChild(fila);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameStore — Inicio</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ============ NAV (copiar igual en todas las páginas) ============ -->
+  <header class="nav">
+    <div class="contenedor nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="nav__logo-mark"></span>
+        GameStore
+      </a>
+      <nav class="nav__links">
+        <a href="index.html" class="activo">Home</a>
+        <a href="productos.html">Productos</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="blogs.html">Blogs</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+      <div class="nav__cuenta">
+        <span id="nav-invitado">
+          <a href="login.html">Iniciar sesión</a>
+          <a href="registro.html">Registrarse</a>
+        </span>
+        <span id="nav-sesion" style="display:none; align-items:center; gap:12px;">
+          <span id="nav-sesion-nombre" style="color:var(--color-text-muted); font-size:0.85rem;"></span>
+          <a href="#" id="nav-cerrar-sesion">Cerrar sesión</a>
+        </span>
+        <a href="carrito.html" class="carrito-btn">
+          Carrito
+          <span class="carrito-btn__contador" id="contador-carrito">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="contenedor hero__grid">
+      <div>
+        <h1 class="hero__titulo">Tu próxima partida <span>empieza acá</span></h1>
+        <p class="hero__texto">
+          Catálogo curado para PC, PlayStation, Xbox y Switch. Sin relleno,
+          solo los juegos que vale la pena tener.
+        </p>
+        <a href="productos.html" class="hero__cta">Ver catálogo</a>
+      </div>
+      <div class="hero__pila" aria-hidden="true">
+        <div class="hero__portada"></div>
+        <div class="hero__portada"></div>
+        <div class="hero__portada"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DESTACADOS ============ -->
+  <section class="seccion">
+    <div class="contenedor">
+      <div class="seccion__encabezado">
+        <h2>Destacados de la semana</h2>
+      </div>
+
+      <div class="grilla-productos" id="grilla-destacados">
+        <!-- Las tarjetas se dibujan con JS desde productos-data.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER (copiar igual en todas las páginas) ============ -->
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__marca">GameStore</div>
+          <p>Tienda de videojuegos para PC y consolas. Proyecto académico DUOC UC — DSY1104.</p>
+        </div>
+        <div>
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Cuenta</h4>
+          <ul>
+            <li><a href="login.html">Iniciar sesión</a></li>
+            <li><a href="registro.html">Registrarse</a></li>
+            <li><a href="carrito.html">Mi carrito</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__base">
+        <span>© 2026 GameStore — Proyecto académico</span>
+        <span>Hecho con HTML, CSS y JavaScript</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/productos-data.js"></script>
+  <script src="js/sesion.js"></script>
+  <script src="js/carrito.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Dibuja las 4 primeras tarjetas de PRODUCTOS como "destacados"
+    document.addEventListener('DOMContentLoaded', () => {
+      const grilla = document.getElementById('grilla-destacados');
+      PRODUCTOS.slice(0, 4).forEach((producto) => {
+        const tarjeta = document.createElement('article');
+        tarjeta.className = 'tarjeta-juego';
+        tarjeta.innerHTML = `
+          <a href="detalle-producto.html?id=${producto.id}">
+            <div class="tarjeta-juego__portada">portada</div>
+          </a>
+          <div class="tarjeta-juego__cuerpo">
+            <span class="plataforma-tag">${producto.plataforma.toUpperCase()}</span>
+            <h3 class="tarjeta-juego__titulo">
+              <a href="detalle-producto.html?id=${producto.id}">${producto.nombre}</a>
+            </h3>
+            <div class="tarjeta-juego__precio-fila">
+              <span class="tarjeta-juego__precio">${formatearPrecio(producto.precio)}</span>
+              <button class="boton-anadir" data-anadir-carrito="${producto.id}">Añadir</button>
+            </div>
+          </div>
+        `;
+        grilla.appendChild(tarjeta);
+      });
+      document.querySelectorAll('[data-anadir-carrito]').forEach((boton) => {
+        boton.addEventListener('click', () => agregarAlCarrito(boton.dataset.anadirCarrito, 1));
+      });
+    });
+  </script>
+</body>
+</html>

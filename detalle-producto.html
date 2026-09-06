@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameStore — Detalle del producto</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <header class="nav">
+    <div class="contenedor nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="nav__logo-mark"></span>
+        GameStore
+      </a>
+      <nav class="nav__links">
+        <a href="index.html">Home</a>
+        <a href="productos.html" class="activo">Productos</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="blogs.html">Blogs</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+      <div class="nav__cuenta">
+        <span id="nav-invitado">
+          <a href="login.html">Iniciar sesión</a>
+          <a href="registro.html">Registrarse</a>
+        </span>
+        <span id="nav-sesion" style="display:none; align-items:center; gap:12px;">
+          <span id="nav-sesion-nombre" style="color:var(--color-text-muted); font-size:0.85rem;"></span>
+          <a href="#" id="nav-cerrar-sesion">Cerrar sesión</a>
+        </span>
+        <a href="carrito.html" class="carrito-btn">
+          Carrito
+          <span class="carrito-btn__contador" id="contador-carrito">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="contenedor">
+    <p class="migas" style="margin-top:24px;">
+      <a href="index.html">Home</a> / <a href="productos.html">Productos</a> / <span id="migaje-nombre"></span>
+    </p>
+  </div>
+
+  <section class="contenedor detalle" id="detalle-contenido">
+    <!-- Se completa con JS según el ?id= de la URL -->
+  </section>
+
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__marca">GameStore</div>
+          <p>Tienda de videojuegos para PC y consolas. Proyecto académico DUOC UC — DSY1104.</p>
+        </div>
+        <div>
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Cuenta</h4>
+          <ul>
+            <li><a href="login.html">Iniciar sesión</a></li>
+            <li><a href="registro.html">Registrarse</a></li>
+            <li><a href="carrito.html">Mi carrito</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__base">
+        <span>© 2026 GameStore — Proyecto académico</span>
+        <span>Hecho con HTML, CSS y JavaScript</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/productos-data.js"></script>
+  <script src="js/sesion.js"></script>
+  <script src="js/carrito.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const producto = obtenerProductoPorId(params.get('id')) || PRODUCTOS[0];
+
+      document.title = `GameStore — ${producto.nombre}`;
+      document.getElementById('migaje-nombre').textContent = producto.nombre;
+
+      document.getElementById('detalle-contenido').innerHTML = `
+        <div class="detalle__portada">portada</div>
+        <div>
+          <span class="plataforma-tag">${producto.plataforma.toUpperCase()}</span>
+          <h1 style="margin-top:12px;">${producto.nombre}</h1>
+          <p>${producto.descripcion}</p>
+          <div class="detalle__precio">${formatearPrecio(producto.precio)}</div>
+          <div class="detalle__cantidad">
+            <label for="cantidad">Cantidad</label>
+            <input type="number" id="cantidad" value="1" min="1" />
+          </div>
+          <button class="boton-primario" id="boton-anadir-detalle" style="width:auto; padding:12px 32px;">
+            Añadir al carrito
+          </button>
+        </div>
+      `;
+
+      document.getElementById('boton-anadir-detalle').addEventListener('click', () => {
+        const cantidad = parseInt(document.getElementById('cantidad').value, 10) || 1;
+        agregarAlCarrito(producto.id, cantidad);
+      });
+    });
+  </script>
+</body>
+</html>

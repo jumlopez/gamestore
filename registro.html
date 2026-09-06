@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameStore — Registro de usuario</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <header class="nav">
+    <div class="contenedor nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="nav__logo-mark"></span>
+        GameStore
+      </a>
+      <nav class="nav__links">
+        <a href="index.html">Home</a>
+        <a href="productos.html">Productos</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="blogs.html">Blogs</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+      <div class="nav__cuenta">
+        <span id="nav-invitado">
+          <a href="login.html">Iniciar sesión</a>
+          <a href="registro.html">Registrarse</a>
+        </span>
+        <span id="nav-sesion" style="display:none; align-items:center; gap:12px;">
+          <span id="nav-sesion-nombre" style="color:var(--color-text-muted); font-size:0.85rem;"></span>
+          <a href="#" id="nav-cerrar-sesion">Cerrar sesión</a>
+        </span>
+        <a href="carrito.html" class="carrito-btn">
+          Carrito
+          <span class="carrito-btn__contador" id="contador-carrito">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="pagina-simple contenedor" style="display:flex; justify-content:center;">
+    <div style="width:100%; max-width:620px;">
+      <h1 style="text-align:center;">Registro de usuario</h1>
+
+      <form class="formulario formulario--ancho" id="form-registro" novalidate>
+        <div class="mensaje-exito" id="registro-exito">Cuenta creada correctamente.</div>
+
+        <div class="campo" id="campo-run">
+          <label for="run">RUN (sin puntos ni guion)</label>
+          <input type="text" id="run" name="run" maxlength="9" placeholder="19011022K" />
+          <span class="campo__error"></span>
+        </div>
+
+        <div class="campo" id="campo-nombre">
+          <label for="nombre">Nombre completo</label>
+          <input type="text" id="nombre" name="nombre" maxlength="50" />
+          <span class="campo__error"></span>
+        </div>
+
+        <div class="campo" id="campo-apellidos">
+          <label for="apellidos">Apellidos</label>
+          <input type="text" id="apellidos" name="apellidos" maxlength="100" />
+          <span class="campo__error"></span>
+        </div>
+
+        <div class="campo" id="campo-correo">
+          <label for="correo">Correo</label>
+          <input type="email" id="correo" name="correo" maxlength="100" />
+          <span class="campo__error"></span>
+        </div>
+
+        <div class="campo" id="campo-fecha-nacimiento">
+          <label for="fecha-nacimiento">Fecha de nacimiento (opcional)</label>
+          <input type="date" id="fecha-nacimiento" name="fecha-nacimiento" />
+        </div>
+
+        <div class="campo" id="campo-contrasena">
+          <label for="contrasena">Contraseña</label>
+          <input type="password" id="contrasena" name="contrasena" maxlength="10" />
+          <span class="campo__error"></span>
+        </div>
+
+        <div class="campo" id="campo-confirmar">
+          <label for="confirmar">Confirmar contraseña</label>
+          <input type="password" id="confirmar" name="confirmar" maxlength="10" />
+          <span class="campo__error"></span>
+        </div>
+
+        <div class="fila-2">
+          <div class="campo" id="campo-region">
+            <label for="region">Región</label>
+            <select id="region" name="region"></select>
+            <span class="campo__error"></span>
+          </div>
+          <div class="campo" id="campo-comuna">
+            <label for="comuna">Comuna</label>
+            <select id="comuna" name="comuna">
+              <option value="">-- Seleccione la comuna --</option>
+            </select>
+            <span class="campo__error"></span>
+          </div>
+        </div>
+
+        <div class="campo" id="campo-direccion">
+          <label for="direccion">Dirección</label>
+          <input type="text" id="direccion" name="direccion" maxlength="300" />
+          <span class="campo__error"></span>
+        </div>
+
+        <button type="submit" class="boton-primario">Registrar</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer__base">
+        <span>© 2026 GameStore — Proyecto académico</span>
+        <span>Hecho con HTML, CSS y JavaScript</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/productos-data.js"></script>
+  <script src="js/sesion.js"></script>
+  <script src="js/carrito.js"></script>
+  <script src="js/validaciones.js"></script>
+  <script src="js/regiones.js"></script>
+  <script>
+    const selectRegion = document.getElementById('region');
+    const selectComuna = document.getElementById('comuna');
+    poblarSelectRegiones(selectRegion, selectComuna);
+
+    const form = document.getElementById('form-registro');
+    const mensajeExito = document.getElementById('registro-exito');
+
+    const campos = {
+      run: document.getElementById('campo-run'),
+      nombre: document.getElementById('campo-nombre'),
+      apellidos: document.getElementById('campo-apellidos'),
+      correo: document.getElementById('campo-correo'),
+      contrasena: document.getElementById('campo-contrasena'),
+      confirmar: document.getElementById('campo-confirmar'),
+      region: document.getElementById('campo-region'),
+      comuna: document.getElementById('campo-comuna'),
+      direccion: document.getElementById('campo-direccion'),
+    };
+
+    const inputs = {
+      run: document.getElementById('run'),
+      nombre: document.getElementById('nombre'),
+      apellidos: document.getElementById('apellidos'),
+      correo: document.getElementById('correo'),
+      contrasena: document.getElementById('contrasena'),
+      confirmar: document.getElementById('confirmar'),
+      direccion: document.getElementById('direccion'),
+    };
+
+    function validarRunCampo() {
+      if (!validarRequerido(inputs.run.value)) {
+        mostrarError(campos.run, 'El RUN es obligatorio.');
+        return false;
+      }
+      if (!validarRun(inputs.run.value)) {
+        mostrarError(campos.run, 'RUN inválido. Formato: 19011022K, sin puntos ni guion.');
+        return false;
+      }
+      limpiarError(campos.run);
+      return true;
+    }
+
+    function validarNombreCampo() {
+      if (!validarRequerido(inputs.nombre.value) || !validarLargo(inputs.nombre.value, null, 50)) {
+        mostrarError(campos.nombre, 'Requerido, máximo 50 caracteres.');
+        return false;
+      }
+      limpiarError(campos.nombre);
+      return true;
+    }
+
+    function validarApellidosCampo() {
+      if (!validarRequerido(inputs.apellidos.value) || !validarLargo(inputs.apellidos.value, null, 100)) {
+        mostrarError(campos.apellidos, 'Requerido, máximo 100 caracteres.');
+        return false;
+      }
+      limpiarError(campos.apellidos);
+      return true;
+    }
+
+    function validarCorreoCampo() {
+      if (!validarRequerido(inputs.correo.value) || !validarLargo(inputs.correo.value, null, 100)) {
+        mostrarError(campos.correo, 'Requerido, máximo 100 caracteres.');
+        return false;
+      }
+      if (!validarCorreo(inputs.correo.value)) {
+        mostrarError(campos.correo, 'Usa un correo @duoc.cl, @profesor.duoc.cl o @gmail.com.');
+        return false;
+      }
+      if (correoExiste(inputs.correo.value)) {
+        mostrarError(campos.correo, 'Ya existe una cuenta con este correo.');
+        return false;
+      }
+      limpiarError(campos.correo);
+      return true;
+    }
+
+    function validarContrasenaCampo() {
+      if (!validarContrasena(inputs.contrasena.value)) {
+        mostrarError(campos.contrasena, 'Entre 4 y 10 caracteres.');
+        return false;
+      }
+      limpiarError(campos.contrasena);
+      return true;
+    }
+
+    function validarConfirmarCampo() {
+      if (inputs.confirmar.value !== inputs.contrasena.value || !validarRequerido(inputs.confirmar.value)) {
+        mostrarError(campos.confirmar, 'Las contraseñas no coinciden.');
+        return false;
+      }
+      limpiarError(campos.confirmar);
+      return true;
+    }
+
+    function validarRegionCampo() {
+      if (!validarRequerido(selectRegion.value)) {
+        mostrarError(campos.region, 'Selecciona una región.');
+        return false;
+      }
+      limpiarError(campos.region);
+      return true;
+    }
+
+    function validarComunaCampo() {
+      if (!validarRequerido(selectComuna.value)) {
+        mostrarError(campos.comuna, 'Selecciona una comuna.');
+        return false;
+      }
+      limpiarError(campos.comuna);
+      return true;
+    }
+
+    function validarDireccionCampo() {
+      if (!validarRequerido(inputs.direccion.value) || !validarLargo(inputs.direccion.value, null, 300)) {
+        mostrarError(campos.direccion, 'Requerido, máximo 300 caracteres.');
+        return false;
+      }
+      limpiarError(campos.direccion);
+      return true;
+    }
+
+    inputs.run.addEventListener('input', validarRunCampo);
+    inputs.nombre.addEventListener('input', validarNombreCampo);
+    inputs.apellidos.addEventListener('input', validarApellidosCampo);
+    inputs.correo.addEventListener('input', validarCorreoCampo);
+    inputs.contrasena.addEventListener('input', validarContrasenaCampo);
+    inputs.confirmar.addEventListener('input', validarConfirmarCampo);
+    selectRegion.addEventListener('change', validarRegionCampo);
+    selectComuna.addEventListener('change', validarComunaCampo);
+    inputs.direccion.addEventListener('input', validarDireccionCampo);
+
+    form.addEventListener('submit', (evento) => {
+      evento.preventDefault();
+      mensajeExito.classList.remove('visible');
+      const resultados = [
+        validarRunCampo(),
+        validarNombreCampo(),
+        validarApellidosCampo(),
+        validarCorreoCampo(),
+        validarContrasenaCampo(),
+        validarConfirmarCampo(),
+        validarRegionCampo(),
+        validarComunaCampo(),
+        validarDireccionCampo(),
+      ];
+      if (resultados.every(Boolean)) {
+        registrarUsuario({
+          run: inputs.run.value.trim().toUpperCase(),
+          nombre: inputs.nombre.value.trim(),
+          apellidos: inputs.apellidos.value.trim(),
+          correo: inputs.correo.value.trim(),
+          contrasena: inputs.contrasena.value,
+          tipoUsuario: 'cliente',
+          region: selectRegion.value,
+          comuna: selectComuna.value,
+          direccion: inputs.direccion.value.trim(),
+        });
+        mensajeExito.textContent = 'Cuenta creada correctamente. Ya puedes iniciar sesión.';
+        mensajeExito.classList.add('visible');
+        form.reset();
+        selectComuna.innerHTML = '<option value="">-- Seleccione la comuna --</option>';
+      }
+    });
+  </script>
+</body>
+</html>

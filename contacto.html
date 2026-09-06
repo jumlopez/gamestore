@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameStore — Contacto</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <header class="nav">
+    <div class="contenedor nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="nav__logo-mark"></span>
+        GameStore
+      </a>
+      <nav class="nav__links">
+        <a href="index.html">Home</a>
+        <a href="productos.html">Productos</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="blogs.html">Blogs</a>
+        <a href="contacto.html" class="activo">Contacto</a>
+      </nav>
+      <div class="nav__cuenta">
+        <span id="nav-invitado">
+          <a href="login.html">Iniciar sesión</a>
+          <a href="registro.html">Registrarse</a>
+        </span>
+        <span id="nav-sesion" style="display:none; align-items:center; gap:12px;">
+          <span id="nav-sesion-nombre" style="color:var(--color-text-muted); font-size:0.85rem;"></span>
+          <a href="#" id="nav-cerrar-sesion">Cerrar sesión</a>
+        </span>
+        <a href="carrito.html" class="carrito-btn">
+          Carrito
+          <span class="carrito-btn__contador" id="contador-carrito">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="pagina-simple contenedor" style="display:flex; justify-content:center;">
+    <div style="width:100%; max-width:520px;">
+      <h1 style="text-align:center;">Contacto</h1>
+      <p style="text-align:center;">¿Dudas, sugerencias o problemas con un pedido? Escríbenos.</p>
+
+      <form class="formulario" id="form-contacto" novalidate>
+        <div class="mensaje-exito" id="contacto-exito">Mensaje enviado. Te responderemos pronto.</div>
+
+        <div class="campo" id="campo-nombre">
+          <label for="nombre">Nombre completo</label>
+          <input type="text" id="nombre" name="nombre" maxlength="100" />
+          <span class="campo__error"></span>
+        </div>
+
+        <div class="campo" id="campo-correo">
+          <label for="correo">Correo</label>
+          <input type="email" id="correo" name="correo" maxlength="100" />
+          <span class="campo__error"></span>
+        </div>
+
+        <div class="campo" id="campo-comentario">
+          <label for="comentario">Comentario</label>
+          <textarea id="comentario" name="comentario" rows="5" maxlength="500"></textarea>
+          <span class="campo__error"></span>
+        </div>
+
+        <button type="submit" class="boton-primario">Enviar mensaje</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer__base">
+        <span>© 2026 GameStore — Proyecto académico</span>
+        <span>Hecho con HTML, CSS y JavaScript</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/productos-data.js"></script>
+  <script src="js/sesion.js"></script>
+  <script src="js/carrito.js"></script>
+  <script src="js/validaciones.js"></script>
+  <script>
+    const form = document.getElementById('form-contacto');
+    const mensajeExito = document.getElementById('contacto-exito');
+    const campoNombre = document.getElementById('campo-nombre');
+    const campoCorreo = document.getElementById('campo-correo');
+    const campoComentario = document.getElementById('campo-comentario');
+    const inputNombre = document.getElementById('nombre');
+    const inputCorreo = document.getElementById('correo');
+    const inputComentario = document.getElementById('comentario');
+
+    function validarNombreCampo() {
+      if (!validarRequerido(inputNombre.value) || !validarLargo(inputNombre.value, null, 100)) {
+        mostrarError(campoNombre, 'Requerido, máximo 100 caracteres.');
+        return false;
+      }
+      limpiarError(campoNombre);
+      return true;
+    }
+
+    function validarCorreoCampo() {
+      // Correo es opcional según la pauta, pero si se ingresa debe ser válido
+      const valor = inputCorreo.value;
+      if (valor.length === 0) {
+        limpiarError(campoCorreo);
+        return true;
+      }
+      if (!validarLargo(valor, null, 100) || !validarCorreo(valor)) {
+        mostrarError(campoCorreo, 'Correo inválido o dominio no permitido.');
+        return false;
+      }
+      limpiarError(campoCorreo);
+      return true;
+    }
+
+    function validarComentarioCampo() {
+      if (!validarRequerido(inputComentario.value) || !validarLargo(inputComentario.value, null, 500)) {
+        mostrarError(campoComentario, 'Requerido, máximo 500 caracteres.');
+        return false;
+      }
+      limpiarError(campoComentario);
+      return true;
+    }
+
+    inputNombre.addEventListener('input', validarNombreCampo);
+    inputCorreo.addEventListener('input', validarCorreoCampo);
+    inputComentario.addEventListener('input', validarComentarioCampo);
+
+    form.addEventListener('submit', (evento) => {
+      evento.preventDefault();
+      mensajeExito.classList.remove('visible');
+      const ok = [validarNombreCampo(), validarCorreoCampo(), validarComentarioCampo()].every(Boolean);
+      if (ok) {
+        mensajeExito.classList.add('visible');
+        form.reset();
+      }
+    });
+  </script>
+</body>
+</html>
