@@ -92,10 +92,13 @@
       document.getElementById('migaje-nombre').textContent = producto.nombre;
 
       document.getElementById('detalle-contenido').innerHTML = `
-        <div class="detalle__portada">portada</div>
+        <div class="detalle__portada">
+          <img src="${producto.imagen}" alt="${producto.nombre}" />
+        </div>
         <div>
           <span class="plataforma-tag">${producto.plataforma.toUpperCase()}</span>
           <h1 style="margin-top:12px;">${producto.nombre}</h1>
+          <p><strong>Género:</strong> ${producto.genero}</p>
           <p>${producto.descripcion}</p>
           <div class="detalle__precio">${formatearPrecio(producto.precio)}</div>
           <div class="detalle__cantidad">
@@ -107,7 +110,6 @@
           </button>
         </div>
       `;
-
       document.getElementById('boton-anadir-detalle').addEventListener('click', () => {
         const cantidad = parseInt(document.getElementById('cantidad').value, 10) || 1;
         agregarAlCarrito(producto.id, cantidad);

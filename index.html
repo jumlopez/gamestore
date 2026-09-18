@@ -117,7 +117,9 @@
         tarjeta.className = 'tarjeta-juego';
         tarjeta.innerHTML = `
           <a href="detalle-producto.html?id=${producto.id}">
-            <div class="tarjeta-juego__portada">portada</div>
+            <div class="tarjeta-juego__portada">
+              <img src="${producto.imagen}" alt="${producto.nombre}" />
+            </div>
           </a>
           <div class="tarjeta-juego__cuerpo">
             <span class="plataforma-tag">${producto.plataforma.toUpperCase()}</span>
