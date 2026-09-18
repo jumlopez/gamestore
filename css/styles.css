@@ -906,3 +906,44 @@ select:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+
+.formulario {
+  background: rgba(18, 22, 34, 0.7) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 0, 110, 0.2);
+  padding: 32px;
+}
+
+.footer {
+  background: rgba(18, 22, 34, 0.85) !important; 
+  backdrop-filter: blur(8px);                    
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px 0;
+}
+
+.footer__base span {
+  color: rgba(255, 255, 255, 0.8) !important;   
+}
+
+
+body {
+  background-image: linear-gradient(rgba(10, 12, 18, 0.75), rgba(10, 12, 18, 0.75)), url('../IMG/gamestore5.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+
+body.bg-login {
+  background-image: linear-gradient(rgba(10, 12, 18, 0.75), rgba(10, 12, 18, 0.75)), url('../IMG/gamestore3.jpg');
+}
+
+
+body.bg-registro {
+  background-image: linear-gradient(rgba(10, 12, 18, 0.75), rgba(10, 12, 18, 0.75)), url('../IMG/gamestore2.jpg');
+}
+ 

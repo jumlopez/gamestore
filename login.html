@@ -6,7 +6,7 @@
   <title>GameStore — Iniciar sesión</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body>
+<body img style="background-image: url('img/gamestore2.jpg'); background-size: cover; background-position: center; background-attachment: fixed; background-repeat: no-repeat;">
 
   <header class="nav">
     <div class="contenedor nav__inner">
@@ -23,8 +23,10 @@
       </nav>
       <div class="nav__cuenta">
         <span id="nav-invitado">
-          <a href="login.html">Iniciar sesión</a>
-          <a href="registro.html">Registrarse</a>
+          <span id="nav-invitado" style="display: flex; gap: 15px; align-items: center;">
+            <a href="login.html">Iniciar sesión</a>
+            <a href="registro.html">Registrarse</a>
+          </span>
         </span>
         <span id="nav-sesion" style="display:none; align-items:center; gap:12px;">
           <span id="nav-sesion-nombre" style="color:var(--color-text-muted); font-size:0.85rem;"></span>
@@ -46,13 +48,13 @@
         <div class="mensaje-exito" id="login-exito">Inicio de sesión válido.</div>
 
         <div class="campo" id="campo-correo">
-          <label for="correo">Correo</label>
+          <label for="correo">Correo(*)</label>
           <input type="email" id="correo" name="correo" maxlength="100" />
           <span class="campo__error"></span>
         </div>
 
         <div class="campo" id="campo-contrasena">
-          <label for="contrasena">Contraseña</label>
+          <label for="contrasena">Contraseña(*)</label>
           <input type="password" id="contrasena" name="contrasena" maxlength="10" />
           <span class="campo__error"></span>
         </div>
