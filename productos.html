@@ -69,6 +69,28 @@
               Switch
             </label>
           </div>
+
+          <!-- Filtro por nombre -->
+          <h3 style="margin-top:24px;">Buscar</h3>
+          <input type="text" id="busqueda" placeholder="Nombre del juego..."
+          style="width:100%; padding:8px; margin-top:8px;" />
+
+          <!-- Filtro por precio (menor - mayor) -->
+          <h3 style="margin-top:24px;">Ordenar por</h3>
+          <select id="orden" style="width:100%; padding:8px; margin-top:8px;">
+            <option value="">Relevancia</option>
+            <option value="precio-asc">Precio: menor a mayor</option>
+            <option value="precio-desc">Precio: mayor a menor</option>
+          </select>
+          
+          <!-- Filtro por precio (rango) -->
+          <h3 style="margin-top:24px;">Precio</h3>
+            <div style="display:flex; gap:8px; margin-top:8px;">
+            <input type="number" id="precio-min" placeholder="Mín" min="0"
+                  style="width:50%; padding:8px;" />
+            <input type="number" id="precio-max" placeholder="Máx" min="0"
+                  style="width:50%; padding:8px;" />
+          </div>
         </aside>
 
         <!-- Grilla de productos (se dibuja con JS) -->
@@ -115,43 +137,89 @@
   <script src="js/carrito.js"></script>
   <script src="js/main.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const grilla = document.getElementById('grilla-productos');
-      const checkboxes = document.querySelectorAll('#filtros-plataforma input[type="checkbox"]');
+  document.addEventListener('DOMContentLoaded', () => {
+    const grilla = document.getElementById('grilla-productos');
+    const checkboxes = document.querySelectorAll('#filtros-plataforma input[type="checkbox"]');
+    const inputBusqueda = document.getElementById('busqueda');
+    const selectOrden = document.getElementById('orden');
+    const inputMin = document.getElementById('precio-min');
+    const inputMax = document.getElementById('precio-max');
 
-      function dibujarProductos() {
-        const activas = Array.from(checkboxes).filter((c) => c.checked).map((c) => c.value);
-        grilla.innerHTML = '';
-        PRODUCTOS.filter((p) => activas.includes(p.plataforma)).forEach((producto) => {
-          const tarjeta = document.createElement('article');
-          tarjeta.className = 'tarjeta-juego';
-          tarjeta.innerHTML = `
-            <a href="detalle-producto.html?id=${producto.id}">
-              <div class="tarjeta-juego__portada">
-                <img src="${producto.imagen}" alt="${producto.nombre}" />
-              </div>
-            </a>
-            <div class="tarjeta-juego__cuerpo">
-              <span class="plataforma-tag">${producto.plataforma.toUpperCase()}</span>
-              <h3 class="tarjeta-juego__titulo">
-                <a href="detalle-producto.html?id=${producto.id}">${producto.nombre}</a>
-              </h3>
-              <div class="tarjeta-juego__precio-fila">
-                <span class="tarjeta-juego__precio">${formatearPrecio(producto.precio)}</span>
-                <button class="boton-anadir" data-anadir-carrito="${producto.id}">Añadir</button>
-              </div>
-            </div>
-          `;
-          grilla.appendChild(tarjeta);
-        });
-        grilla.querySelectorAll('[data-anadir-carrito]').forEach((boton) => {
-          boton.addEventListener('click', () => agregarAlCarrito(boton.dataset.anadirCarrito, 1));
-        });
+    function dibujarProductos() {
+      // 1. Plataformas marcadas
+      const activas = Array.from(checkboxes).filter((c) => c.checked).map((c) => c.value);
+      // 2. Texto del buscador (en minúsculas para comparar sin importar mayúsculas)
+      const texto = inputBusqueda.value.trim().toLowerCase();
+      // 2b. Rango de precio: campo vacío = límite que no excluye nada
+      const min = inputMin.value === '' ? 0 : Number(inputMin.value);
+      const max = inputMax.value === '' ? Infinity : Number(inputMax.value);
+
+      // 3. Filtramos: plataforma -> nombre -> rango de precio
+      let resultado = PRODUCTOS
+        .filter((p) => activas.includes(p.plataforma))
+        .filter((p) => p.nombre.toLowerCase().includes(texto))
+        .filter((p) => p.precio >= min && p.precio <= max);
+
+      // 4. Ordenamos según el select (sobre una copia, para no alterar PRODUCTOS)
+      const orden = selectOrden.value;
+      if (orden === 'precio-asc') {
+        resultado = [...resultado].sort((a, b) => a.precio - b.precio);
+      } else if (orden === 'precio-desc') {
+        resultado = [...resultado].sort((a, b) => b.precio - a.precio);
       }
 
-      checkboxes.forEach((c) => c.addEventListener('change', dibujarProductos));
-      dibujarProductos();
-    });
-  </script>
+      // 5. Dibujamos
+      grilla.innerHTML = '';
+
+      if (resultado.length === 0) {
+        grilla.innerHTML = '<p style="color:var(--color-text-muted);">No se encontraron productos.</p>';
+        return;
+      }
+
+      resultado.forEach((producto) => {
+        const agotado = Number(producto.stock) <= 0;
+        const critico = !agotado && Number(producto.stock) <= producto.stockCritico;
+
+        const tarjeta = document.createElement('article');
+        tarjeta.className = 'tarjeta-juego';
+        tarjeta.innerHTML = `
+          <a href="detalle-producto.html?id=${producto.id}">
+            <div class="tarjeta-juego__portada">
+              <img src="${producto.imagen}" alt="${producto.nombre}" />
+            </div>
+          </a>
+          <div class="tarjeta-juego__cuerpo">
+            <span class="plataforma-tag">${producto.plataforma.toUpperCase()}</span>
+            ${critico ? '<span class="badge-critico">¡Últimas unidades!</span>' : ''}
+            <h3 class="tarjeta-juego__titulo">
+              <a href="detalle-producto.html?id=${producto.id}">${producto.nombre}</a>
+            </h3>
+            <div class="tarjeta-juego__precio-fila">
+              <span class="tarjeta-juego__precio">${formatearPrecio(producto.precio)}</span>
+              ${agotado
+                ? '<button class="boton-anadir" disabled>Agotado</button>'
+                : `<button class="boton-anadir" data-anadir-carrito="${producto.id}">Añadir</button>`}
+            </div>
+          </div>
+        `;
+        grilla.appendChild(tarjeta);
+      });
+
+      // Solo se enganchan los botones que NO están agotados
+      grilla.querySelectorAll('[data-anadir-carrito]').forEach((boton) => {
+        boton.addEventListener('click', () => agregarAlCarrito(boton.dataset.anadirCarrito, 1));
+      });
+    }
+
+    // Cada control vuelve a dibujar cuando cambia
+    checkboxes.forEach((c) => c.addEventListener('change', dibujarProductos));
+    inputBusqueda.addEventListener('input', dibujarProductos);
+    selectOrden.addEventListener('change', dibujarProductos);
+    inputMin.addEventListener('input', dibujarProductos);
+    inputMax.addEventListener('input', dibujarProductos);
+
+    dibujarProductos();
+  });
+</script>
 </body>
 </html>

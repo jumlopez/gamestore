@@ -19,10 +19,22 @@ function guardarCarrito(carrito) {
 }
 
 function agregarAlCarrito(idProducto, cantidad = 1) {
+  const producto = obtenerProductoPorId(idProducto);
+  if (!producto) return;
+
   const carrito = leerCarrito();
   const existente = carrito.find((item) => item.id === idProducto);
+  const cantidadActual = existente ? existente.cantidad : 0;
+  const cantidadNueva = cantidadActual + cantidad;
+
+  // No permitir más unidades de las que hay en stock
+  if (cantidadNueva > producto.stock) {
+    alert(`No hay stock suficiente. Solo quedan ${producto.stock} unidades de ${producto.nombre}.`);
+    return;
+  }
+
   if (existente) {
-    existente.cantidad += cantidad;
+    existente.cantidad = cantidadNueva;
   } else {
     carrito.push({ id: idProducto, cantidad });
   }
@@ -38,6 +50,15 @@ function cambiarCantidad(idProducto, delta) {
   const carrito = leerCarrito();
   const item = carrito.find((i) => i.id === idProducto);
   if (!item) return;
+
+  const producto = obtenerProductoPorId(idProducto);
+
+  // Si es un aumento (+) y ya se llegó al tope de stock, no dejar subir
+  if (delta > 0 && producto && item.cantidad + delta > producto.stock) {
+    alert(`Solo quedan ${producto.stock} unidades de ${producto.nombre}.`);
+    return;
+  }
+
   item.cantidad += delta;
   if (item.cantidad <= 0) {
     quitarDelCarrito(idProducto);
@@ -87,15 +108,16 @@ function renderizarCarrito() {
     const fila = document.createElement('div');
     fila.className = 'carrito-item';
     fila.innerHTML = `
-      <div class="carrito-item__img"></div>
-      <div>
+      <div class="carrito-item__img">
+        <img src="${producto.imagen}" alt="${producto.nombre}" />
+      </div>
         <strong>${producto.nombre}</strong>
         <div class="campo__ayuda">${formatearPrecio(producto.precio)} c/u</div>
       </div>
       <div class="carrito-item__cantidad">
         <button type="button" data-restar="${producto.id}">−</button>
         <span>${item.cantidad}</span>
-        <button type="button" data-sumar="${producto.id}">+</button>
+        <button type="button" data-sumar="${producto.id}" ${item.cantidad >= producto.stock ? 'disabled' : ''}>+</button>
       </div>
       <div style="text-align:right;">
         <div>${formatearPrecio(subtotal)}</div>

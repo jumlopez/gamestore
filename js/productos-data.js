@@ -23,15 +23,15 @@ const PRODUCTOS = [
 
   { id: 'p4', nombre: 'Donkey Kong Country Returns HD', plataforma: 'switch', precio: 61990, stock: 15, stockCritico: 3, 
     descripcion: 'Emprende una aventura llena de vibrantes niveles repletos de obstáculos en diversas plataformas por toda la Isla de Donkey Kong. Allí podrás pisotear y rodar a través de entornos que incluyen junglas y volcanes.', 
-    imagen: 'img/DKKCountry.png', genero: 'Estrategia' },
+    imagen: 'img/DKKCountry.png', genero: 'Plataformas' },
 
-  { id: 'p5', nombre: 'Nombre del juego 5', plataforma: 'pc', precio: 19990, stock: 2, stockCritico: 3, 
-    descripcion: 'Descripción de ejemplo del juego. Reemplacen por el texto real.', 
-    imagen: 'img/juego5.jpg', genero: 'Simulación' },
+  { id: 'p5', nombre: 'Baldur\'s Gate 3', plataforma: 'pc', precio: 27990, stock: 2, stockCritico: 3, 
+    descripcion: 'Reúne a tu grupo y vuelve a los Reinos Olvidados en un relato de compañerismo y traición, sacrificio y supervivencia, además de la atracción de un poder absoluto.', 
+    imagen: 'img/baldur.jpg', genero: 'RPG de acción' },
 
-  { id: 'p6', nombre: 'Nombre del juego 6', plataforma: 'ps5', precio: 54990, stock: 6, stockCritico: 3, 
-    descripcion: 'Descripción de ejemplo del juego. Reemplacen por el texto real.', 
-    imagen: 'img/juego6.jpg', genero: 'Deportes' },
+  { id: 'p6', nombre: 'MARVEL Tōkon: Fighting Souls', plataforma: 'ps5', precio: 74990, stock: 6, stockCritico: 3, 
+    descripcion: 'Ha llegado el momento de formar tu equipo soñado y lanzarte a combates 4c4 llenos de acción. Elige entre una larga lista de 20 personajes icónicos de Marvel disponibles en el lanzamiento, cada uno con un nuevo y llamativo estilo artístico inspirado en el anime, acompañados por los miembros de sus equipos de superhéroes y villanos de Marvel, igual de impresionantes.', 
+    imagen: 'img/MARVEL_Fighting Souls.jpg', genero: 'Peleas' },
 ];
 
 function formatearPrecio(numero) {
