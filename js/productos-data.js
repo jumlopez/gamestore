@@ -32,6 +32,70 @@ const PRODUCTOS = [
   { id: 'p6', nombre: 'MARVEL Tōkon: Fighting Souls', plataforma: 'ps5', precio: 74990, stock: 6, stockCritico: 3, 
     descripcion: 'Ha llegado el momento de formar tu equipo soñado y lanzarte a combates 4c4 llenos de acción. Elige entre una larga lista de 20 personajes icónicos de Marvel disponibles en el lanzamiento, cada uno con un nuevo y llamativo estilo artístico inspirado en el anime, acompañados por los miembros de sus equipos de superhéroes y villanos de Marvel, igual de impresionantes.', 
     imagen: 'img/MARVEL_Fighting Souls.jpg', genero: 'Peleas' },
+
+  { id: 'p7', nombre: 'The Legend of Zelda: Tears of the Kingdom', plataforma: 'switch', precio: 69990, stock: 8, stockCritico: 3,
+    descripcion: 'Explora un mundo abierto lleno de misterios y desafíos mientras te embarcas en una épica aventura para salvar el reino de Hyrule. Descubre nuevas habilidades, resuelve acertijos y enfrenta enemigos formidables en tu búsqueda para restaurar la paz.', 
+    imagen: 'img/zelda.jpg', genero: 'Aventura' },
+
+  { id: 'p8', nombre: 'Hogwarts Legacy', plataforma: 'ps5', precio: 49990, stock: 10, stockCritico: 3,
+    descripcion: 'Sumérgete en el mundo mágico de Harry Potter y vive la experiencia de ser un estudiante en Hogwarts. Explora el castillo, aprende hechizos, descubre secretos y enfrenta criaturas mágicas mientras forjas tu propio destino en este juego de rol épico.', 
+    imagen: 'img/hogwarts.jpg', genero: 'RPG de acción' }, 
+
+  { id: 'p9', nombre: 'Resident Evil 4 Remake', plataforma: 'ps5', precio: 59990, stock: 5, stockCritico: 3,
+    descripcion: 'Vuelve a vivir la terrorífica experiencia de Resident Evil 4 con gráficos mejorados, mecánicas de juego refinadas y una narrativa más profunda. Enfréntate a hordas de enemigos y resuelve acertijos mientras intentas sobrevivir en un mundo lleno de horror.', 
+    imagen: 'img/residentevil4.jpg', genero: 'Survival Horror' },
+
+  { id: 'p10', nombre: 'FIFA 27', plataforma: 'ps5', precio: 69990, stock: 20, stockCritico: 3,
+    descripcion: 'Disfruta del fútbol más realista con FIFA 27, que ofrece gráficos impresionantes, jugabilidad mejorada y modos de juego emocionantes. Compite en torneos, crea tu equipo y demuestra tus habilidades en el campo.', 
+    imagen: 'img/fifa27.jpg', genero: 'Deportes' },
+
+  { id: 'p11', nombre: 'The Witcher 3: Wild Hunt', plataforma: 'ps5', precio: 39990, stock: 7, stockCritico: 3,
+    descripcion: 'Embárcate en una épica aventura como Geralt de Rivia, un cazador de monstruos en un mundo abierto lleno de intriga, magia y peligros. Toma decisiones que afectarán el destino del mundo y enfréntate a criaturas temibles en tu búsqueda.', 
+    imagen: 'img/witcher3.jpg', genero: 'RPG de acción' },
+    
+  { id: 'p12', nombre: 'Cyberpunk 2077', plataforma: 'xbox', precio: 49990, stock: 4, stockCritico: 3,
+    descripcion: 'Adéntrate en el mundo futurista de Night City, una metrópolis llena de tecnología avanzada y corrupción. Personaliza tu personaje, toma decisiones que afectarán la historia y enfréntate a desafíos en un entorno abierto y dinámico.', 
+    imagen: 'img/cyberpunk2077.jpg', genero: 'RPG de acción' },
+
+  { id: 'p13', nombre: 'Hollow Knight', plataforma: 'ps4', precio: 19990, stock: 9, stockCritico: 3,
+    descripcion: 'Explora un vasto mundo subterráneo lleno de secretos, enemigos y desafíos en este juego de acción y aventura. Con un estilo artístico único y una jugabilidad desafiante, Hollow Knight te sumerge en una experiencia inolvidable.', 
+    imagen: 'img/hollowknight.jpg', genero: 'Metroidvania' },
+    
+  { id: 'p14', nombre: 'Stardew Valley', plataforma: 'switch', precio: 24990, stock: 11, stockCritico: 3,
+    descripcion: 'Vive la vida en el campo cultivando tu granja, criando animales y formando relaciones con los habitantes del pueblo. Disfruta de una experiencia relajante y gratificante mientras construyes tu propio paraíso rural.', 
+    imagen: 'img/stardewvalley.jpg', genero: 'Simulación' },  
+
+  { id: 'p15', nombre: 'Hades', plataforma: 'pc', precio: 29990, stock: 5, stockCritico: 3,
+    descripcion: 'Embárcate en un viaje épico a través del inframundo griego en este juego de acción roguelike. Enfréntate a enemigos desafiantes, mejora tus habilidades y descubre la historia de Hades mientras intentas escapar del reino de los muertos.', 
+    imagen: 'img/hades.jpg', genero: 'Roguelike' },  
+
+  { id: 'p16', nombre: 'Animal Crossing: New Horizons', plataforma: 'switch', precio: 59990, stock: 14, stockCritico: 3,
+    descripcion: 'Crea tu propia isla paradisíaca y vive la vida a tu manera en Animal Crossing: New Horizons. Personaliza tu hogar, interactúa con adorables vecinos y disfruta de actividades relajantes en un mundo encantador.', 
+    imagen: 'img/animalcrossing.jpg', genero: 'Simulación' },
+
+  { id: 'p17', nombre: 'The Last of Us Part II', plataforma: 'ps5', precio: 49990, stock: 3, stockCritico: 3,
+    descripcion: 'Sumérgete en una historia emocionalmente intensa en un mundo postapocalíptico. Acompaña a Ellie en su viaje de supervivencia y venganza mientras enfrentas peligros y tomas decisiones difíciles.', 
+    imagen: 'img/thelastofus2.jpg', genero: 'Aventura' },
+    
+  { id: 'p18', nombre: 'Horizon Forbidden West', plataforma: 'ps4', precio: 69990, stock: 6, stockCritico: 3,
+    descripcion: 'Explora un mundo postapocalíptico lleno de paisajes impresionantes y criaturas mecánicas. Acompaña a Aloy en su búsqueda para descubrir los secretos del pasado y proteger a la humanidad de nuevas amenazas.', 
+    imagen: 'img/horizonforbiddenwest.jpg', genero: 'RPG de acción' },    
+  
+  { id: 'p19', nombre: 'Metroid Dread', plataforma: 'switch', precio: 69990, stock: 10, stockCritico: 3,
+    descripcion: 'Embárcate en una aventura de acción y exploración como Samus Aran en Metroid Dread. Enfréntate a enemigos peligrosos, resuelve acertijos y descubre los secretos de un planeta alienígena mientras luchas por sobrevivir.', 
+    imagen: 'img/metroiddread.jpg', genero: 'Aventura' }, 
+    
+  { id: 'p20', nombre: 'Cuphead', plataforma: 'xbox', precio: 24990, stock: 8, stockCritico: 3,
+    descripcion: 'Disfruta de un juego de acción y plataformas con un estilo artístico único inspirado en los dibujos animados de los años 30. Enfréntate a jefes desafiantes y supera niveles llenos de acción mientras te sumerges en un mundo encantador y peligroso.', 
+    imagen: 'img/cuphead.jpg', genero: 'Plataformas' },
+    
+  { id: 'p21', nombre: 'Dark Souls III', plataforma: 'ps4', precio: 39990, stock: 7, stockCritico: 3,
+    descripcion: 'Enfréntate a un mundo oscuro y desafiante en Dark Souls III. Explora entornos peligrosos, derrota enemigos formidables y descubre la historia de un reino en decadencia mientras luchas por sobrevivir.', 
+    imagen: 'img/darksouls3.jpg', genero: 'RPG de acción' },
+
+  { id: 'p22', nombre: 'Sekiro: Shadows Die Twice', plataforma: 'ps4', precio: 49990, stock: 5, stockCritico: 3,
+    descripcion: 'Embárcate en una aventura de acción y sigilo en el Japón feudal como un shinobi en busca de venganza. Enfréntate a enemigos desafiantes, domina el arte del combate y descubre la historia de un mundo lleno de intriga y peligro.', 
+    imagen: 'img/sekiro.jpg', genero: 'Aventura' },  
 ];
 
 function formatearPrecio(numero) {
