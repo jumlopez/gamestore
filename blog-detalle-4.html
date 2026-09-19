@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameStore — Caso curioso #4</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body style="background-image: url('img/gamestore5.jpg'); background-size: cover; background-position: center; background-attachment: fixed; background-repeat: no-repeat;">
+
+  <header class="nav">
+    <div class="contenedor nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="nav__logo-mark"></span>
+        GameStore
+      </a>
+      <nav class="nav__links">
+        <a href="index.html">Home</a>
+        <a href="productos.html">Productos</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="blogs.html" class="activo">Blogs</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+      <div class="nav__cuenta">
+        <span id="nav-invitado">
+          <a href="login.html">Iniciar sesión</a>
+          <a href="registro.html">Registrarse</a>
+        </span>
+        <span id="nav-sesion" style="display:none; align-items:center; gap:12px;">
+          <span id="nav-sesion-nombre" style="color:var(--color-text-muted); font-size:0.85rem;"></span>
+          <a href="#" id="nav-cerrar-sesion">Cerrar sesión</a>
+        </span>
+        <a href="carrito.html" class="carrito-btn">
+          Carrito
+          <span class="carrito-btn__contador" id="contador-carrito">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="pagina-simple contenedor" style="max-width:720px;">
+    <p class="migas"><a href="blogs.html">Blogs</a> / Drones, simuladores y el futuro del deporte virtual</p>
+    <div class="tarjeta-blog__img" style="border-radius:10px; height:280px; margin-bottom:24px; overflow:hidden;">
+      <img src="img/portada2.jpg" alt="Portada drones y simuladores" style="width:100%; height:100%; object-fit:cover; display:block;" />
+    </div>
+    <h1>Drones, simuladores y el futuro del deporte virtual</h1>
+
+    <p>
+      La tecnología moderna ha borrado la frontera entre los deportes tradicionales y los simuladores virtuales. Con el avance de los <strong>drones de alta velocidad</strong> y la captura de movimiento en tiempo real, los desarrolladores de videojuegos han logrado recrear ángulos de cámara y dinámicas de juego que antes eran imposibles de transmitir en una pantalla.
+    </p>
+
+    <p>
+      Hoy en día, los títulos de deportes masivos y simulación utilizan algoritmos basados en la física de drones reales para controlar las cámaras cinemáticas dentro del juego. Esto permite a los jugadores disfrutar de repeticiones hiperrealistas con la misma fluidez y perspectiva aérea que se utiliza en las transmisiones de los estadios más avanzados del mundo.
+    </p>
+
+    <p>
+      Además, disciplinas emergentes como las <strong>carreras de drones FPV</strong> han dado el salto inverso: nacieron como simuladores digitales y hoy llenan estadios reales con miles de fanáticos, demostrando que el futuro del entretenimiento deportivo se juega tanto en la cancha como en las pantallas.
+    </p>
+  </section>
+
+  <footer class="footer">
+    <div class="contenedor">
+      <div class="footer__base">
+        <span>© 2026 GameStore — Proyecto académico</span>
+        <span>Hecho con HTML, CSS y JavaScript</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/productos-data.js"></script>
+  <script src="js/sesion.js"></script>
+  <script src="js/carrito.js"></script>
+</body>
+</html>
