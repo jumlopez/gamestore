@@ -98,10 +98,60 @@ const PRODUCTOS = [
     imagen: 'img/sekiro.jpg', genero: 'Aventura' },  
 ];
 
+/* =========================================================
+   Capa de persistencia (backend falso con localStorage)
+   ========================================================= */
+
+const CLAVE_PRODUCTOS = 'gamestore_productos';
+
+/** Copia la semilla a localStorage la primera vez que se abre el sitio */
+function sembrarProductosPorDefecto() {
+  if (!localStorage.getItem(CLAVE_PRODUCTOS)) {
+    localStorage.setItem(CLAVE_PRODUCTOS, JSON.stringify(PRODUCTOS));
+  }
+}
+sembrarProductosPorDefecto();
+
+/** Fuente de verdad para todas las vistas: lee de localStorage */
+function obtenerProductos() {
+  const datos = localStorage.getItem(CLAVE_PRODUCTOS);
+  return datos ? JSON.parse(datos) : PRODUCTOS;
+}
+
+function guardarProductos(productos) {
+  localStorage.setItem(CLAVE_PRODUCTOS, JSON.stringify(productos));
+}
+
+/** Crea o actualiza un producto (idOriginal: id previo en edición, null al crear) */
+function guardarProductoAdmin(datos, idOriginal = null) {
+  const productos = obtenerProductos();
+  const clave = idOriginal || datos.id;
+  const indice = productos.findIndex((p) => p.id === clave);
+  if (indice >= 0) {
+    productos[indice] = { ...productos[indice], ...datos };
+  } else {
+    productos.push(datos);
+  }
+  guardarProductos(productos);
+}
+
 function formatearPrecio(numero) {
   return '$' + numero.toLocaleString('es-CL');
 }
 
 function obtenerProductoPorId(id) {
-  return PRODUCTOS.find((producto) => producto.id === id);
+  return obtenerProductos().find((producto) => producto.id === id);
+
+}
+
+function ajustarStockProducto(id, delta) {
+  const productos = obtenerProductos();
+  const producto = productos.find((p) => p.id === id);
+  if (!producto) return;
+  producto.stock = Math.max(0, producto.stock + delta);
+  guardarProductos(productos);
+}
+
+function eliminarProducto(id) {
+  guardarProductos(obtenerProductos().filter((p) => p.id !== id));
 }

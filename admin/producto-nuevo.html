@@ -221,7 +221,34 @@
         validarCodigo(), validarNombre(), validarDescripcion(),
         validarPrecio(), validarCategoria(), validarStock(), validarStockCritico(),
       ].every(Boolean);
-      if (ok) mensajeExito.classList.add('visible');
+      if (!ok) return;
+
+      const stockCriticoValor = inputs.stockCritico.value === ''
+        ? 3
+        : parseInt(inputs.stockCritico.value, 10);
+
+      const producto = {
+        id: inputs.codigo.value.trim(),
+        nombre: inputs.nombre.value.trim(),
+        descripcion: inputs.descripcion.value.trim(),
+        precio: parseFloat(inputs.precio.value),
+        plataforma: inputs.categoria.value,
+        stock: parseInt(inputs.stock.value, 10),
+        stockCritico: stockCriticoValor,
+      };
+
+      // En edición, conservamos imagen y género (no están en el form)
+      if (idEdicion) {
+        const original = obtenerProductoPorId(idEdicion);
+        if (original) {
+          producto.imagen = original.imagen;
+          producto.genero = original.genero;
+        }
+      }
+
+      guardarProductoAdmin(producto, idEdicion || null);
+      mensajeExito.classList.add('visible');
+      setTimeout(() => { window.location.href = 'productos.html'; }, 800);
     });
   </script>
 </body>

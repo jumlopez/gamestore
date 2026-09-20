@@ -48,8 +48,9 @@
     if (sesion) {
       ajustarSidebarSegunRol(sesion);
       document.getElementById('titulo-bienvenida').textContent = `¡Hola, ${sesion.nombre}!`;
-      document.getElementById('resumen-productos').textContent = PRODUCTOS.length;
-      document.getElementById('resumen-critico').textContent = PRODUCTOS.filter(p => p.stock <= p.stockCritico).length;
+      const productos = obtenerProductos();
+      document.getElementById('resumen-productos').textContent = productos.length;
+      document.getElementById('resumen-critico').textContent = productos.filter(p => p.stock <= p.stockCritico).length;
     }
   </script>
 </body>

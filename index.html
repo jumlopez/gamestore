@@ -112,7 +112,7 @@
     // Dibuja las 4 primeras tarjetas de PRODUCTOS como "destacados"
     document.addEventListener('DOMContentLoaded', () => {
       const grilla = document.getElementById('grilla-destacados');
-      PRODUCTOS.slice(0, 4).forEach((producto) => {
+      obtenerProductos().slice(0, 4).forEach((producto) => {
         const tarjeta = document.createElement('article');
         tarjeta.className = 'tarjeta-juego';
         tarjeta.innerHTML = `
