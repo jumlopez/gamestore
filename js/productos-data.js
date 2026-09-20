@@ -21,7 +21,7 @@ const PRODUCTOS = [
     descripcion: 'Únete a Peter Parker y Miles Morales mientras se enfrentan a nuevos y peligrosos villanos que amenazan la ciudad de Nueva York. Conviértete en el héroe que la ciudad necesita, balanceándote entre rascacielos y utilizando tus habilidades arácnidas para proteger a los inocentes.', 
     imagen: 'img/spiderman.jpg', genero: 'Aventura' },
 
-  { id: 'p4', nombre: 'Donkey Kong Country Returns HD', plataforma: 'switch', precio: 61990, stock: 15, stockCritico: 3, 
+  { id: 'p4', nombre: 'Donkey Kong Country Returns HD', plataforma: 'switch', precio: 0, stock: 15, stockCritico: 3, 
     descripcion: 'Emprende una aventura llena de vibrantes niveles repletos de obstáculos en diversas plataformas por toda la Isla de Donkey Kong. Allí podrás pisotear y rodar a través de entornos que incluyen junglas y volcanes.', 
     imagen: 'img/DKKCountry.png', genero: 'Plataformas' },
 
@@ -99,6 +99,7 @@ const PRODUCTOS = [
 ];
 
 function formatearPrecio(numero) {
+  if (numero === 0) return '<span class="precio-gratis">GRATIS</span>';
   return '$' + numero.toLocaleString('es-CL');
 }
 
