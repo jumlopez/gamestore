@@ -145,10 +145,21 @@ function actualizarNavSesion() {
 
   if (!bloqueInvitado || !bloqueSesion) return; // esta página no tiene ese nav
 
-  if (sesion) {
+    if (sesion) {
     bloqueInvitado.style.display = 'none';
     bloqueSesion.style.display = 'inline-flex';
     if (nombreEl) nombreEl.textContent = `Hola, ${sesion.nombre}`;
+
+    // Enlace al panel admin, visible solo para administrador y vendedor
+    const rolesConPanel = ['administrador', 'vendedor'];
+    if (rolesConPanel.includes(sesion.tipoUsuario) && !document.getElementById('nav-link-admin')) {
+      const enlaceAdmin = document.createElement('a');
+      enlaceAdmin.id = 'nav-link-admin';
+      enlaceAdmin.href = 'admin/index.html';
+      enlaceAdmin.textContent = 'Panel admin';
+      if (botonCerrar) bloqueSesion.insertBefore(enlaceAdmin, botonCerrar);
+      else bloqueSesion.appendChild(enlaceAdmin);
+    }
   } else {
     bloqueInvitado.style.display = 'inline';
     bloqueSesion.style.display = 'none';

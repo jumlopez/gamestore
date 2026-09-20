@@ -159,7 +159,7 @@
       const max = inputMax.value === '' ? Infinity : Number(inputMax.value);
 
       // 3. Filtramos: plataforma -> nombre -> rango de precio
-      let resultado = PRODUCTOS
+      let resultado = obtenerProductos()
         .filter((p) => activas.includes(p.plataforma))
         .filter((p) => p.nombre.toLowerCase().includes(texto))
         .filter((p) => p.precio >= min && p.precio <= max);

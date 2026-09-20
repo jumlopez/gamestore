@@ -232,6 +232,18 @@
     </main>
   </div>
 
+  <script src="../js/productos-data.js"></script>
+  <script src="../js/sesion.js"></script>
+  <script>
+    const sesion = protegerAdmin(['administrador', 'vendedor'], '../');
+    if (sesion) {
+      ajustarSidebarSegunRol(sesion);
+      document.getElementById('titulo-bienvenida').textContent = `¡Hola, ${sesion.nombre}!`;
+      const productos = obtenerProductos();
+      document.getElementById('resumen-productos').textContent = productos.length;
+      document.getElementById('resumen-critico').textContent = productos.filter(p => p.stock <= p.stockCritico).length;
+    }
+  </script>
   <div id="edit-modal" class="modal hidden">
     <div class="modal-backdrop" data-close-modal="true"></div>
     <div class="modal-card">
