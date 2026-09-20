@@ -90,7 +90,7 @@ function renderizarCarrito() {
 
   if (carrito.length === 0) {
     if (vacioEl) vacioEl.style.display = 'block';
-    if (resumenTotal) resumenTotal.textContent = formatearPrecio(0);
+    if (resumenTotal) resumenTotal.textContent = '$0';
     return;
   }
 
@@ -127,7 +127,7 @@ function renderizarCarrito() {
     contenedor.appendChild(fila);
   });
 
-  if (resumenTotal) resumenTotal.textContent = formatearPrecio(total);
+  if (resumenTotal) resumenTotal.innerHTML = formatearPrecio(total);
 
   contenedor.querySelectorAll('[data-sumar]').forEach((boton) => {
     boton.addEventListener('click', () => {

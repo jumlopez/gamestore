@@ -232,19 +232,75 @@ select:focus-visible {
   transform: translateY(-2px);
 }
 
-/* Pila de "portadas" decorativa */
-.hero__pila {
+/* Carrusel de imágenes */
+.hero__carrusel {
   position: relative;
-  height: 320px;
+  height: 750px;
 }
 
-.hero__portada {
+/* Capa de imágenes: acá va el difuminado hacia la izquierda */
+.carrusel__slides {
   position: absolute;
-  width: 220px;
-  height: 290px;
-  border-radius: 14px;
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+  inset: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  /* La imagen se desvanece hacia su lado izquierdo (hacia el texto).
+     El texto de la izquierda queda respirando; el carrusel se difumina a media pantalla. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 40%);
+          mask-image: linear-gradient(to right, transparent 0%, #000 40%);
 }
+
+.carrusel__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;        /* la lámina oculta no es clickeable */
+}
+.carrusel__slide.activa {
+  opacity: 1;
+  pointer-events: auto;        /* solo la visible responde al clic */
+}
+.carrusel__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Flechas manuales */
+.carrusel__flecha {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.carrusel__flecha--prev { left: 12px; }
+.carrusel__flecha--next { right: 12px; }
+
+/* Puntos indicadores (también sirven para cambiar de imagen) */
+.carrusel__puntos {
+  position: absolute;
+  bottom: 12px; right: 16px;
+  z-index: 3;
+  display: flex; gap: 8px;
+}
+.carrusel__punto {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  padding: 0;
+}
+.carrusel__punto.activo { background: var(--color-accent); }
 
 .hero__portada:nth-child(1) {
   left: 0;
@@ -304,6 +360,11 @@ select:focus-visible {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 24px;
+}
+
+.precio-gratis {
+  color: #3ddc84;
+  font-weight: 700;
 }
 
 .tarjeta-juego {
