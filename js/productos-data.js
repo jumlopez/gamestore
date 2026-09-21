@@ -95,7 +95,11 @@ const PRODUCTOS = [
 
   { id: 'p22', nombre: 'Sekiro: Shadows Die Twice', plataforma: 'ps4', precio: 49990, stock: 5, stockCritico: 3,
     descripcion: 'Embárcate en una aventura de acción y sigilo en el Japón feudal como un shinobi en busca de venganza. Enfréntate a enemigos desafiantes, domina el arte del combate y descubre la historia de un mundo lleno de intriga y peligro.', 
-    imagen: 'img/sekiro.jpg', genero: 'Aventura' },  
+    imagen: 'img/sekiro.jpg', genero: 'Aventura' },
+    
+  { id: 'p23', nombre: 'Ghost of Tsushima', plataforma: 'ps5', precio: 59990, stock: 9, stockCritico: 3,
+    descripcion: 'Sumérgete en la historia de Jin Sakai, un samurái que lucha por proteger su hogar durante la invasión mongola de Japón. Explora un mundo abierto lleno de paisajes impresionantes, enfrenta enemigos formidables y toma decisiones que afectarán el destino de Tsushima.', 
+    imagen: 'img/ghostoftsushima.jpg', genero: 'Aventura' },  
 ];
 
 /* =========================================================
