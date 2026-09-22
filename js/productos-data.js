@@ -95,11 +95,7 @@ const PRODUCTOS = [
 
   { id: 'p22', nombre: 'Sekiro: Shadows Die Twice', plataforma: 'ps4', precio: 49990, stock: 5, stockCritico: 3,
     descripcion: 'Embárcate en una aventura de acción y sigilo en el Japón feudal como un shinobi en busca de venganza. Enfréntate a enemigos desafiantes, domina el arte del combate y descubre la historia de un mundo lleno de intriga y peligro.', 
-    imagen: 'img/sekiro.jpg', genero: 'Aventura' }, 
-
-  { id: 'p23', nombre: 'Ghost of Tsushima', plataforma: 'ps4', precio: 59990, stock: 9, stockCritico: 3,
-    descripcion: 'Sumérgete en el mundo de samuráis y guerreros en Ghost of Tsushima. Acompaña a Jin Sakai en su lucha por proteger su tierra contra una invasión mongola mientras enfrentas desafíos y descubres la historia de un mundo en transformación.', 
-    imagen: 'img/ghostoftsushima.jpg', genero: 'Aventura' },
+    imagen: 'img/sekiro.jpg', genero: 'Aventura' },
 
   { id: 'p24', nombre: 'Forza Horizon 5', plataforma: 'xbox', precio: 69990, stock: 12, stockCritico: 3,
     descripcion: 'Disfruta de la experiencia de conducción más emocionante en Forza Horizon 5. Explora un mundo abierto lleno de paisajes impresionantes, participa en carreras emocionantes y personaliza tus vehículos mientras compites por la victoria.', 
