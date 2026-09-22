@@ -15,9 +15,11 @@ reemplazando el texto en todos los `.html`.
 ├── registro.html             → Registro de usuario (RUN, región/comuna)
 ├── contacto.html             → Formulario de contacto
 ├── nosotros.html
-├── blogs.html                → Listado de 2 casos curiosos
+├── blogs.html                → Listado de 4 casos curiosos
 ├── blog-detalle-1.html
 ├── blog-detalle-2.html
+|__ blog-detalle-3.html
+|__ blog-detalle-4.html
 ├── admin/
 │   ├── index.html            → Home del panel admin (protegida)
 │   ├── productos.html        → Listado de productos (protegida)
@@ -35,14 +37,6 @@ reemplazando el texto en todos los `.html`.
 │   └── main.js                → Conecta los botones "Añadir" al carrito
 └── img/                       → Acá van las portadas reales
 ```
-
-## Cómo probarlo
-
-Extraigan el zip completo (no abran el HTML desde dentro del zip) y
-abran `index.html` con doble clic. Todo — carrito, formularios,
-login — funciona directo en el navegador porque `localStorage`
-funciona incluso abriendo el archivo con `file://`. No necesitan
-servidor para esta entrega.
 
 ## Usuario administrador y sistema de roles
 
@@ -71,8 +65,7 @@ lo redirige de vuelta a `admin/index.html`.
 ## Qué es real y qué es de ejemplo
 
 - **Datos de productos**: viven en `js/productos-data.js` como un
-  arreglo fijo. No hay base de datos — cuando lleguen a esa etapa del
-  ramo, ese arreglo se reemplaza por datos que vengan de una API.
+  arreglo fijo. No hay base de datos — ese arreglo se reemplazara a futuro por datos que vengan de una API.
 - **Carrito**: 100% funcional — agrega, quita, cambia cantidad, y
   persiste en `localStorage`.
 - **Usuarios y sesión**: 100% funcionales — el registro público
@@ -84,21 +77,6 @@ lo redirige de vuelta a `admin/index.html`.
   los límites exactos de la pauta (min/max caracteres, dominios de
   correo permitidos, RUN chileno con dígito verificador, contraseña
   4-10 caracteres, etc.).
-
-## Reparto sugerido
-
-- **Admin (Juan):** ya viene armado, incluyendo el login con roles —
-  revisen `admin/` y `js/sesion.js`, y ajusten a gusto.
-- **Productos + Detalle producto:** ya viene armado — enfocarse en
-  mejorar el diseño de la ficha de producto.
-- **Registro + Login + Carrito:** ya vienen armados — enfocarse en
-  pulir el flujo.
-- **Nosotros + Blogs + Contacto:** ya vienen armados con contenido
-  placeholder — reemplazar por contenido real del equipo.
-
-Con todo esto armado, el trabajo que queda es: reemplazar contenido
-placeholder por el real, agregar imágenes propias en `img/`, y decidir
-el nombre final de la tienda.
 
 ## Clases CSS ya listas para usar
 
