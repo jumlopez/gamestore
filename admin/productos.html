@@ -9,7 +9,7 @@
 <body>
   <div class="admin-layout">
     <aside class="admin-sidebar">
-      <div class="admin-sidebar__marca">GameStore <span style="color:var(--color-text-muted); font-weight:400; font-size:0.8rem;">/ admin</span></div>
+      <div class="admin-sidebar__marca"><img src="../img/nav-icon.png" alt="GameStore" class="admin-sidebar__marca-icon" /> GameStore <span style="color:var(--color-text-muted); font-weight:400; font-size:0.8rem;">/ admin</span></div>
       <nav>
         <a href="index.html">Inicio</a>
         <a href="productos.html" class="activo">Productos</a>
@@ -28,6 +28,23 @@
         <a href="producto-nuevo.html" id="boton-nuevo-producto" class="boton-primario" style="width:auto; display:inline-block; padding:10px 20px;">Nuevo producto</a>
       </div>
 
+      <div class="admin-filtros">
+        <input type="search" id="filtro-buscar" class="filtro-input" placeholder="Buscar por nombre o código…" />
+        <select id="filtro-orden" class="filtro-input">
+          <option value="">Orden original</option>
+          <option value="nombre">Nombre (A–Z)</option>
+          <option value="precio-asc">Precio (menor a mayor)</option>
+          <option value="precio-desc">Precio (mayor a menor)</option>
+          <option value="stock-asc">Stock (menor a mayor)</option>
+          <option value="stock-desc">Stock (mayor a menor)</option>
+        </select>
+        <label class="filtro-check">
+          <input type="checkbox" id="filtro-critico" />
+          Solo stock crítico
+        </label>
+      </div>
+
+
       <div class="tabla-wrap">
         <table class="tabla">
           <thead>
@@ -43,37 +60,107 @@
           <tbody id="tabla-productos"></tbody>
         </table>
       </div>
+      <p id="sin-resultados" class="sin-resultados" style="display:none;">No hay productos que coincidan con la búsqueda.</p>
     </main>
   </div>
 
   <script src="../js/productos-data.js"></script>
   <script src="../js/sesion.js"></script>
   <script>
-    const sesion = protegerAdmin(['administrador', 'vendedor'], '../');
+        function confirmarEliminarProducto(id) {
+      const producto = obtenerProductoPorId(id);
+      const nombre = producto ? producto.nombre : id;
+      if (confirm(`¿Eliminar "${nombre}"? Esta acción no se puede deshacer.`)) {
+        eliminarProducto(id);
+        renderizarTabla();
+      }
+    }
+
+    function ajustarStock(id, delta) {
+      ajustarStockProducto(id, delta);
+      renderizarTabla();
+    }
+
+        const sesion = protegerAdmin(['administrador', 'vendedor'], '../');
     if (sesion) {
       ajustarSidebarSegunRol(sesion);
 
       const esVendedor = sesion.tipoUsuario === 'vendedor';
       const cuerpo = document.getElementById('tabla-productos');
-      PRODUCTOS.forEach((p) => {
-        const fila = document.createElement('tr');
-        const stockHtml = p.stock <= p.stockCritico
-          ? `<span class="etiqueta-stock-critico">${p.stock} (crítico)</span>`
-          : p.stock;
-        const accionHtml = esVendedor
-          ? ''
-          : `<a href="producto-nuevo.html?id=${p.id}"><button type="button" class="boton-tabla">Editar</button></a>`;
-        fila.innerHTML = `
-          <td>${p.id}</td>
-          <td>${p.nombre}</td>
-          <td>${p.plataforma.toUpperCase()}</td>
-          <td>${formatearPrecio(p.precio)}</td>
-          <td>${stockHtml}</td>
-          <td>${accionHtml}</td>
-        `;
-        cuerpo.appendChild(fila);
-      });
+      const inputBuscar = document.getElementById('filtro-buscar');
+      const checkCritico = document.getElementById('filtro-critico');
+      const selectOrden = document.getElementById('filtro-orden');
+      const sinResultados = document.getElementById('sin-resultados');
+
+      function renderizarTabla() {
+        const texto = inputBuscar.value.trim().toLowerCase();
+        const soloCritico = checkCritico.checked;
+        const orden = selectOrden.value;
+
+        let lista = obtenerProductos();
+
+        // Buscar por nombre o código
+        if (texto) {
+          lista = lista.filter((p) =>
+            p.nombre.toLowerCase().includes(texto) ||
+            p.id.toLowerCase().includes(texto)
+          );
+        }
+
+        // Solo stock crítico
+        if (soloCritico) {
+          lista = lista.filter((p) => p.stock <= p.stockCritico);
+        }
+
+        // Ordenar
+        if (orden === 'nombre') lista.sort((a, b) => a.nombre.localeCompare(b.nombre));
+        else if (orden === 'precio-asc') lista.sort((a, b) => a.precio - b.precio);
+        else if (orden === 'precio-desc') lista.sort((a, b) => b.precio - a.precio);
+        else if (orden === 'stock-asc') lista.sort((a, b) => a.stock - b.stock);
+        else if (orden === 'stock-desc') lista.sort((a, b) => b.stock - a.stock);
+
+        // Dibujar
+        cuerpo.innerHTML = '';
+        lista.forEach((p) => {
+          const fila = document.createElement('tr');
+          const etiqueta = p.stock <= p.stockCritico
+            ? `<span class="etiqueta-stock-critico">${p.stock} (crítico)</span>`
+            : `<span>${p.stock}</span>`;
+          const stockHtml = esVendedor
+            ? etiqueta
+            : `<div class="stock-control">
+                 <button type="button" class="stock-btn" onclick="ajustarStock('${p.id}', -1)">−</button>
+                 ${etiqueta}
+                 <button type="button" class="stock-btn" onclick="ajustarStock('${p.id}', 1)">+</button>
+               </div>`;
+          const accionHtml = esVendedor
+            ? ''
+            : `<a href="producto-nuevo.html?id=${p.id}"><button type="button" class="boton-tabla">Editar</button></a>
+               <button type="button" class="boton-tabla boton-peligro" onclick="confirmarEliminarProducto('${p.id}')">Eliminar</button>`;
+          
+          fila.innerHTML = `
+            <td>${p.id}</td>
+            <td>${p.nombre}</td>
+            <td>${p.plataforma.toUpperCase()}</td>
+            <td>${formatearPrecio(p.precio)}</td>
+            <td>${stockHtml}</td>
+            <td>${accionHtml}</td>
+          `;
+          cuerpo.appendChild(fila);
+        });
+
+        sinResultados.style.display = lista.length === 0 ? 'block' : 'none';
+      }
+
+      window.renderizarTabla = renderizarTabla;
+
+      inputBuscar.addEventListener('input', renderizarTabla);
+      checkCritico.addEventListener('change', renderizarTabla);
+      selectOrden.addEventListener('change', renderizarTabla);
+
+      renderizarTabla();
     }
   </script>
 </body>
 </html>
+

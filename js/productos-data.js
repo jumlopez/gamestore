@@ -21,7 +21,7 @@ const PRODUCTOS = [
     descripcion: 'Únete a Peter Parker y Miles Morales mientras se enfrentan a nuevos y peligrosos villanos que amenazan la ciudad de Nueva York. Conviértete en el héroe que la ciudad necesita, balanceándote entre rascacielos y utilizando tus habilidades arácnidas para proteger a los inocentes.', 
     imagen: 'img/spiderman.jpg', genero: 'Aventura' },
 
-  { id: 'p4', nombre: 'Donkey Kong Country Returns HD', plataforma: 'switch', precio: 61990, stock: 15, stockCritico: 3, 
+  { id: 'p4', nombre: 'Donkey Kong Country Returns HD', plataforma: 'switch', precio: 0, stock: 15, stockCritico: 3, 
     descripcion: 'Emprende una aventura llena de vibrantes niveles repletos de obstáculos en diversas plataformas por toda la Isla de Donkey Kong. Allí podrás pisotear y rodar a través de entornos que incluyen junglas y volcanes.', 
     imagen: 'img/DKKCountry.png', genero: 'Plataformas' },
 
@@ -118,10 +118,61 @@ const PRODUCTOS = [
     imagen: 'img/callofduty.jpg', genero: 'Shooter' },  
 ];
 
+/* =========================================================
+   Capa de persistencia (backend falso con localStorage)
+   ========================================================= */
+
+const CLAVE_PRODUCTOS = 'gamestore_productos';
+
+/** Copia la semilla a localStorage la primera vez que se abre el sitio */
+function sembrarProductosPorDefecto() {
+  if (!localStorage.getItem(CLAVE_PRODUCTOS)) {
+    localStorage.setItem(CLAVE_PRODUCTOS, JSON.stringify(PRODUCTOS));
+  }
+}
+sembrarProductosPorDefecto();
+
+/** Fuente de verdad para todas las vistas: lee de localStorage */
+function obtenerProductos() {
+  const datos = localStorage.getItem(CLAVE_PRODUCTOS);
+  return datos ? JSON.parse(datos) : PRODUCTOS;
+}
+
+function guardarProductos(productos) {
+  localStorage.setItem(CLAVE_PRODUCTOS, JSON.stringify(productos));
+}
+
+/** Crea o actualiza un producto (idOriginal: id previo en edición, null al crear) */
+function guardarProductoAdmin(datos, idOriginal = null) {
+  const productos = obtenerProductos();
+  const clave = idOriginal || datos.id;
+  const indice = productos.findIndex((p) => p.id === clave);
+  if (indice >= 0) {
+    productos[indice] = { ...productos[indice], ...datos };
+  } else {
+    productos.push(datos);
+  }
+  guardarProductos(productos);
+}
+
 function formatearPrecio(numero) {
+  if (numero === 0) return '<span class="precio-gratis">GRATIS</span>';
   return '$' + numero.toLocaleString('es-CL');
 }
 
 function obtenerProductoPorId(id) {
-  return PRODUCTOS.find((producto) => producto.id === id);
+  return obtenerProductos().find((producto) => producto.id === id);
+
+}
+
+function ajustarStockProducto(id, delta) {
+  const productos = obtenerProductos();
+  const producto = productos.find((p) => p.id === id);
+  if (!producto) return;
+  producto.stock = Math.max(0, producto.stock + delta);
+  guardarProductos(productos);
+}
+
+function eliminarProducto(id) {
+  guardarProductos(obtenerProductos().filter((p) => p.id !== id));
 }

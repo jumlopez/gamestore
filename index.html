@@ -12,7 +12,7 @@
   <header class="nav">
     <div class="contenedor nav__inner">
       <a href="index.html" class="nav__logo">
-        <span class="nav__logo-mark"></span>
+        <img src="img/nav-icon.png" alt="GameStore" class="nav__logo-mark" />
         GameStore
       </a>
       <nav class="nav__links">
@@ -50,13 +50,64 @@
         </p>
         <a href="productos.html" class="hero__cta">Ver catálogo</a>
       </div>
-      <div class="hero__pila" aria-hidden="true">
-        <div class="hero__portada"></div>
-        <div class="hero__portada"></div>
-        <div class="hero__portada"></div>
+      <div class="hero__carrusel">
+        <div class="carrusel__slides" id="carrusel-slides"><!-- se llena con JS --></div>
+        <button class="carrusel__flecha carrusel__flecha--prev" id="carrusel-prev" aria-label="Anterior">‹</button>
+        <button class="carrusel__flecha carrusel__flecha--next" id="carrusel-next" aria-label="Siguiente">›</button>
+        <div class="carrusel__puntos" id="carrusel-puntos"></div>
       </div>
-    </div>
   </section>
+
+    <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const slidesEl = document.getElementById('carrusel-slides');
+    const puntosEl = document.getElementById('carrusel-puntos');
+    if (!slidesEl) return;
+
+    // Solo entran al carrusel los juegos que tengan imagen
+    const juegos = PRODUCTOS.filter((p) => p.imagen);
+    let actual = 0;
+
+    juegos.forEach((producto, i) => {
+      // Cada lámina es un enlace: al hacer clic va a la página de venta
+      const slide = document.createElement('a');
+      slide.className = 'carrusel__slide' + (i === 0 ? ' activa' : '');
+      slide.href = `detalle-producto.html?id=${producto.id}`;
+      slide.innerHTML = `<img src="${producto.imagen}" alt="${producto.nombre}" />`;
+      slidesEl.appendChild(slide);
+
+      const punto = document.createElement('button');
+      punto.className = 'carrusel__punto' + (i === 0 ? ' activo' : '');
+      punto.setAttribute('aria-label', `Ir al juego ${i + 1}`);
+      punto.addEventListener('click', () => mostrar(i));
+      puntosEl.appendChild(punto);
+    });
+
+    const slides = slidesEl.querySelectorAll('.carrusel__slide');
+    const puntos = puntosEl.querySelectorAll('.carrusel__punto');
+
+    function mostrar(i) {
+      actual = (i + slides.length) % slides.length; // da la vuelta al llegar al final
+      slides.forEach((s, idx) => s.classList.toggle('activa', idx === actual));
+      puntos.forEach((p, idx) => p.classList.toggle('activo', idx === actual));
+    }
+
+    document.getElementById('carrusel-next').addEventListener('click', () => mostrar(actual + 1));
+    document.getElementById('carrusel-prev').addEventListener('click', () => mostrar(actual - 1));
+
+    // Rotación automática cada 4 segundos (cambia el 4000 por los ms que quieras)
+    let intervalo = setInterval(() => mostrar(actual + 1), 4000);
+
+    // Se pausa cuando pasas el mouse por encima
+    const carrusel = document.querySelector('.hero__carrusel');
+    carrusel.addEventListener('mouseenter', () => clearInterval(intervalo));
+    carrusel.addEventListener('mouseleave', () => {
+      intervalo = setInterval(() => mostrar(actual + 1), 4000);
+    });
+  });
+</script>
+
+
 
   <!-- ============ DESTACADOS ============ -->
   <section class="seccion">
@@ -112,7 +163,7 @@
     // Dibuja las 4 primeras tarjetas de PRODUCTOS como "destacados"
     document.addEventListener('DOMContentLoaded', () => {
       const grilla = document.getElementById('grilla-destacados');
-      PRODUCTOS.slice(0, 4).forEach((producto) => {
+      obtenerProductos().slice(0, 4).forEach((producto) => {
         const tarjeta = document.createElement('article');
         tarjeta.className = 'tarjeta-juego';
         tarjeta.innerHTML = `

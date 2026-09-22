@@ -12,7 +12,7 @@
   <header class="nav">
     <div class="contenedor nav__inner">
       <a href="index.html" class="nav__logo">
-        <span class="nav__logo-mark"></span>
+        <img src="img/nav-icon.png" alt="GameStore" class="nav__logo-mark" />
         GameStore
       </a>
       <nav class="nav__links">
@@ -159,7 +159,7 @@
       const max = inputMax.value === '' ? Infinity : Number(inputMax.value);
 
       // 3. Filtramos: plataforma -> nombre -> rango de precio
-      let resultado = PRODUCTOS
+      let resultado = obtenerProductos()
         .filter((p) => activas.includes(p.plataforma))
         .filter((p) => p.nombre.toLowerCase().includes(texto))
         .filter((p) => p.precio >= min && p.precio <= max);
