@@ -358,8 +358,8 @@ select:focus-visible {
    ========================================================= */
 .grilla-productos {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(4,1fr) ;
+  gap: 20px;
 }
 
 .precio-gratis {

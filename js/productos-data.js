@@ -96,10 +96,26 @@ const PRODUCTOS = [
   { id: 'p22', nombre: 'Sekiro: Shadows Die Twice', plataforma: 'ps4', precio: 49990, stock: 5, stockCritico: 3,
     descripcion: 'Embárcate en una aventura de acción y sigilo en el Japón feudal como un shinobi en busca de venganza. Enfréntate a enemigos desafiantes, domina el arte del combate y descubre la historia de un mundo lleno de intriga y peligro.', 
     imagen: 'img/sekiro.jpg', genero: 'Aventura' },
+
+  { id: 'p24', nombre: 'Forza Horizon 5', plataforma: 'xbox', precio: 69990, stock: 12, stockCritico: 3,
+    descripcion: 'Disfruta de la experiencia de conducción más emocionante en Forza Horizon 5. Explora un mundo abierto lleno de paisajes impresionantes, participa en carreras emocionantes y personaliza tus vehículos mientras compites por la victoria.', 
+    imagen: 'img/forzahorizon5.jpg', genero: 'Carreras' },
     
-  { id: 'p23', nombre: 'Ghost of Tsushima', plataforma: 'ps5', precio: 59990, stock: 9, stockCritico: 3,
-    descripcion: 'Sumérgete en la historia de Jin Sakai, un samurái que lucha por proteger su hogar durante la invasión mongola de Japón. Explora un mundo abierto lleno de paisajes impresionantes, enfrenta enemigos formidables y toma decisiones que afectarán el destino de Tsushima.', 
-    imagen: 'img/ghostoftsushima.jpg', genero: 'Aventura' },  
+  { id: 'p25', nombre: 'Death Stranding', plataforma: 'ps5', precio: 39990, stock: 4, stockCritico: 3,
+    descripcion: 'Sumérgete en el mundo de samuráis y guerreros en Ghost of Tsushima. Acompaña a Jin Sakai en su lucha por proteger su tierra contra una invasión mongola mientras enfrentas desafíos y descubres la historia de un mundo en transformación.', 
+    imagen: 'img/deathstranding.jpg', genero: 'Aventura' },
+
+  { id: 'p26', nombre: 'Resident Evil Village', plataforma: 'ps5', precio: 59990, stock: 6, stockCritico: 3,
+    descripcion: 'Vuelve a vivir la terrorífica experiencia de Resident Evil Village con gráficos mejorados, mecánicas de juego refinadas y una narrativa más profunda. Enfréntate a hordas de enemigos y resuelve acertijos mientras intentas sobrevivir en un mundo lleno de horror.', 
+    imagen: 'img/residentevilvillage.jpg', genero: 'Survival Horror' },
+    
+  { id: 'p27', nombre: 'Assassin\'s Creed Valhalla', plataforma: 'ps5', precio: 69990, stock: 10, stockCritico: 3,
+    descripcion: 'Embárcate en una épica aventura como un vikingo en Assassin\'s Creed Valhalla. Explora un mundo abierto lleno de historia, conquista territorios y descubre la vida de los vikingos mientras te enfrentas a desafíos y enemigos formidables.', 
+    imagen: 'img/assassinscreedvalhalla.jpg', genero: 'Aventura' },
+    
+  { id: 'p28', nombre: 'Call of Duty: Modern Warfare II', plataforma: 'xbox', precio: 79990, stock: 8, stockCritico: 3,
+    descripcion: 'Sumérgete en la acción intensa de Call of Duty: Modern Warfare II. Participa en combates multijugador emocionantes, completa misiones desafiantes y experimenta la adrenalina de la guerra moderna mientras te enfrentas a enemigos en todo el mundo.', 
+    imagen: 'img/callofduty.jpg', genero: 'Shooter' },  
 ];
 
 /* =========================================================
